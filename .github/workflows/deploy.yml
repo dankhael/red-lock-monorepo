@@ -166,22 +166,21 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           envs: STRAPI_APP_KEYS,STRAPI_API_TOKEN_SALT,STRAPI_ADMIN_JWT_SECRET,STRAPI_TRANSFER_TOKEN_SALT,STRAPI_JWT_SECRET,DATABASE_HOST,DATABASE_PORT,DATABASE_NAME,DATABASE_USERNAME,DATABASE_PASSWORD
           script: |
-            cat > /root/RBox/red-lock/.env.production << 'ENVEOF'
-            HOST=127.0.0.1
-            PORT=1337
-            APP_KEYS=$STRAPI_APP_KEYS
-            API_TOKEN_SALT=$STRAPI_API_TOKEN_SALT
-            ADMIN_JWT_SECRET=$STRAPI_ADMIN_JWT_SECRET
-            TRANSFER_TOKEN_SALT=$STRAPI_TRANSFER_TOKEN_SALT
-            JWT_SECRET=$STRAPI_JWT_SECRET
-            DATABASE_CLIENT=postgres
-            DATABASE_HOST=$DATABASE_HOST
-            DATABASE_PORT=$DATABASE_PORT
-            DATABASE_NAME=$DATABASE_NAME
-            DATABASE_USERNAME=$DATABASE_USERNAME
-            DATABASE_PASSWORD=$DATABASE_PASSWORD
-            DATABASE_SSL=true
-            ENVEOF
+            cd /root/RBox/red-lock
+            echo "HOST=127.0.0.1" > .env.production
+            echo "PORT=1337" >> .env.production
+            echo "APP_KEYS=${STRAPI_APP_KEYS}" >> .env.production
+            echo "API_TOKEN_SALT=${STRAPI_API_TOKEN_SALT}" >> .env.production
+            echo "ADMIN_JWT_SECRET=${STRAPI_ADMIN_JWT_SECRET}" >> .env.production
+            echo "TRANSFER_TOKEN_SALT=${STRAPI_TRANSFER_TOKEN_SALT}" >> .env.production
+            echo "JWT_SECRET=${STRAPI_JWT_SECRET}" >> .env.production
+            echo "DATABASE_CLIENT=postgres" >> .env.production
+            echo "DATABASE_HOST=${DATABASE_HOST}" >> .env.production
+            echo "DATABASE_PORT=${DATABASE_PORT}" >> .env.production
+            echo "DATABASE_NAME=${DATABASE_NAME}" >> .env.production
+            echo "DATABASE_USERNAME=${DATABASE_USERNAME}" >> .env.production
+            echo "DATABASE_PASSWORD=${DATABASE_PASSWORD}" >> .env.production
+            echo "DATABASE_SSL=true" >> .env.production
         env:
           STRAPI_APP_KEYS: ${{ secrets.STRAPI_APP_KEYS }}
           STRAPI_API_TOKEN_SALT: ${{ secrets.STRAPI_API_TOKEN_SALT }}
@@ -207,3 +206,26 @@ jobs:
             cd /root/RBox/red-lock
             npm install --omit=dev
             pm2 restart red-lock || pm2 start npm --name red-lock -- start
+
+      - name: Verify deployment
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            echo "=== .env.production keys (values redacted) ==="
+            cd /root/RBox/red-lock
+            awk -F= '{print $1"="substr($2,1,4)"***"}' .env.production
+            echo ""
+            echo "=== pm2 status ==="
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            pm2 list
+            echo ""
+            echo "=== Strapi API health check ==="
+            sleep 5
+            curl -s -o /dev/null -w "HTTP %{http_code}" http://127.0.0.1:1337/api/posts || echo "API unreachable"
+            echo ""
+            echo "=== Last 20 lines of pm2 logs ==="
+            pm2 logs red-lock --nostream --lines 20
