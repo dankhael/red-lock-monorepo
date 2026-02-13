@@ -19,7 +19,7 @@ import ErrorBoundary from './components/common/ErrorBoundary';
 function App() {
   return (
     <ErrorBoundary>
-      <Router>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />

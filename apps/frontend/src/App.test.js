@@ -1,13 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
 
-test('renders header with site name', () => {
-  render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  );
+test('renders header with site name', async () => {
+  await act(async () => {
+    render(<App />);
+  });
   expect(screen.getByText('RED')).toBeInTheDocument();
   expect(screen.getByText('BOX')).toBeInTheDocument();
 });

@@ -1,13 +1,12 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import Header from './Header';
 
 test('renders header with navigation links', () => {
   render(
-    <BrowserRouter>
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Header />
-    </BrowserRouter>
+    </MemoryRouter>
   );
   
   // Check if the logo text is rendered
