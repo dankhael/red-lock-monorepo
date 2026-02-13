@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faGamepad, faTv, faBook } from '@fortawesome/free-solid-svg-icons';
-import { getFeaturedImage, getActivities } from '../../services/blogService';
+import { getFeaturedImage, getActivities, getLastFmTracks } from '../../services/blogService';
 import '../../styles/sidebar.css'; // Import the external CSS file
 
 // Add icons to the library
@@ -18,21 +18,11 @@ const Sidebar = () => {
   const [tv, setTv] = useState('');
   const [book, setBook] = useState('');
 
-  // Simulated Last.fm API call - in production, replace with actual API call
   useEffect(() => {
     const fetchLastFmData = async () => {
       try {
-        const user = 'dankhael';  // Replace with the correct user
-        const apiKey = 'e697ac237f9bb157ecd7b43cb86383eb';  // Replace with the correct API key
-        // Fetch recent tracks from Last.fm API
-        const response = await fetch(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&format=json&limit=15`);
-        
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-        setLastFmData(data.recenttracks.track);
+        const tracks = await getLastFmTracks();
+        setLastFmData(tracks);
       } catch (error) {
         console.error('Fetching Last.fm data failed:', error);
       } finally {
