@@ -10,12 +10,13 @@ test('renders header with navigation links', () => {
     </BrowserRouter>
   );
   
-  // Check if the logo is rendered
-  expect(screen.getByText('Red Lock')).toBeInTheDocument();
-  
+  // Check if the logo text is rendered
+  expect(screen.getByText('RED')).toBeInTheDocument();
+  expect(screen.getByText('BOX')).toBeInTheDocument();
+
   // Check if navigation links are rendered
   expect(screen.getByText('Home')).toBeInTheDocument();
   expect(screen.getByText('Blog')).toBeInTheDocument();
-  expect(screen.getByText('About')).toBeInTheDocument();
   expect(screen.getByText('Games')).toBeInTheDocument();
+  expect(screen.getByText('Sobre mim')).toBeInTheDocument();
 }); 
