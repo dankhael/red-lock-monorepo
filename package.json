@@ -1,0 +1,17 @@
+{
+  "name": "red-lock-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:backend": "npm run develop --workspace=apps/backend",
+    "dev:frontend": "npm run start --workspace=apps/frontend",
+    "install:all": "npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

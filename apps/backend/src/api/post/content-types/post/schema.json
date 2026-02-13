@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "posts",
+  "info": {
+    "singularName": "post",
+    "pluralName": "posts",
+    "displayName": "Post",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "content": {
+      "type": "richtext"
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "excerpt": {
+      "type": "text"
+    },
+    "publishedOn": {
+      "type": "datetime"
+    },
+    "featured": {
+      "type": "boolean"
+    },
+    "metadata": {
+      "type": "json"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "Review",
+        "Opinião",
+        "Artigo"
+      ]
+    }
+  }
+}

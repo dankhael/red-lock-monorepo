@@ -1,0 +1,21 @@
+.blog-page {
+    padding: 20px;
+  }
+
+.blog-page h1 {
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 2rem;
+}
+  
+  .blog-content {
+    display: flex;
+    gap: 20px; /* Space between main content and sidebar */
+  }
+  
+  .main-content {
+    flex: 3; /* Main content takes up more space */
+  }
+  
+  .sidebar-container {
+    flex: 1; /* Sidebar takes up less space */
+  }

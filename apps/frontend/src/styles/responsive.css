@@ -1,0 +1,61 @@
+/* Mobile First Approach */
+
+/* Base styles for mobile */
+.container {
+  width: 100%;
+  padding: 0 1rem;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+  
+  .post-list, .game-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .post-card, .game-card {
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .post-image, .game-thumbnail {
+    height: 200px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+  
+  .post-list, .game-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .featured-posts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+} 

@@ -1,0 +1,23 @@
+{
+  "kind": "singleType",
+  "collectionName": "activities",
+  "info": {
+    "singularName": "activity",
+    "pluralName": "activities",
+    "displayName": "Activity"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "game": {
+      "type": "string"
+    },
+    "tv": {
+      "type": "string"
+    },
+    "book": {
+      "type": "string"
+    }
+  }
+}

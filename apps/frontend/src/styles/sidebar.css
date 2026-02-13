@@ -1,0 +1,134 @@
+/* Scope all styles under .sidebar-container */
+.sidebar-container {
+  width: 300px;
+  font-family: 'Press Start 2P', monospace;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-left: 20px;
+}
+
+.sidebar-container .sidebar-section {
+  margin-bottom: 25px;
+}
+
+.sidebar-container .sidebar-heading {
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+  border-bottom: 2px solid #f1a1b1;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sidebar-container .sidebar-content {
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+  
+  .activity-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ddd;
+  }
+  
+  .activity-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  
+  .activity-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  
+  .activity-info {
+    flex: 1;
+  }
+  
+  .activity-title {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+  }
+  
+  .activity-name {
+    font-size: 11px;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+  }
+  
+  .featured-image img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 8px;
+  }
+  
+  .image-caption {
+    font-size: 10px;
+    color: #666;
+    text-align: center;
+    margin: 0;
+  }
+  
+  .track-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ddd;
+  }
+  
+  .track-item:last-child {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+  }
+  
+  .track-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .track-info {
+    flex: 1;
+  }
+  
+  .track-name {
+    font-size: 10px;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+  }
+  
+  .track-artist {
+    font-size: 9px;
+    color: #888;
+    margin: 0;
+  }
+  
+  .lastfm-attribution {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 10px;
+    color: #999;
+  }
+  
+  .lastfm-logo {
+    height: 25px;
+    margin-right: 4px;
+  }

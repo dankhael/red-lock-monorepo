@@ -1,0 +1,44 @@
+{
+  "name": "red-lock",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Strapi application",
+  "scripts": {
+    "console": "strapi console",
+    "deploy": "strapi deploy",
+    "dev": "strapi develop",
+    "develop": "cross-env ENV_PATH=./.env.development strapi develop",
+    "start": "cross-env ENV_PATH=./.env.production strapi start",
+    "build": "cross-env ENV_PATH=./.env.production strapi build",
+    "strapi": "strapi",
+    "upgrade": "npx @strapi/upgrade latest",
+    "upgrade:dry": "npx @strapi/upgrade latest --dry"
+  },
+  "dependencies": {
+    "@strapi/plugin-cloud": "5.11.2",
+    "@strapi/plugin-seo": "^2.0.8",
+    "@strapi/plugin-users-permissions": "5.11.2",
+    "@strapi/strapi": "5.11.2",
+    "better-sqlite3": "11.3.0",
+    "pg": "^8.14.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.0.0",
+    "strapi-plugin-wysiwyg-react-md-editor": "^5.8.2",
+    "styled-components": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "cross-env": "^7.0.3",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0 <=22.x.x",
+    "npm": ">=6.0.0"
+  },
+  "strapi": {
+    "uuid": "1e2b6441-859d-45c8-8daa-08ddec8dcefd"
+  }
+}

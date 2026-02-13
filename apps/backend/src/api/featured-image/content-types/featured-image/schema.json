@@ -1,0 +1,27 @@
+{
+  "kind": "singleType",
+  "collectionName": "featured_images",
+  "info": {
+    "singularName": "featured-image",
+    "pluralName": "featured-images",
+    "displayName": "Featured Image"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "caption": {
+      "type": "string"
+    }
+  }
+}

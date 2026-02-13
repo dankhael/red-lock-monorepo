@@ -1,0 +1,40 @@
+.minesweeper {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .board {
+    display: grid;
+    grid-template-columns: repeat(8, 30px);
+    gap: 2px;
+    justify-content: center;
+  }
+  
+  .row {
+    display: flex;
+  }
+  
+  .cell {
+    width: 30px;
+    height: 30px;
+    background-color: #ddd;
+    border: 1px solid #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .cell.revealed {
+    background-color: #fff;
+    cursor: default;
+  }
+  
+  .cell.revealed:hover {
+    background-color: #fff;
+  }
+  
+  .cell:hover {
+    background-color: #ccc;
+  }

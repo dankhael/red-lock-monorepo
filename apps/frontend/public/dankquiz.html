@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retro Anime Quiz</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background-color: #120458;
+      color: #FFFFFF;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      text-align: center;
+    }
+    
+    .quiz-title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #FF6EFF;
+      text-shadow: 3px 3px 0 #120458, 5px 5px 0 #5438DC;
+      letter-spacing: 2px;
+    }
+    
+    .quiz-container {
+      background-color: #6320EE;
+      border: 4px solid #FF6EFF;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
+    }
+    
+    .progress-bar {
+      background-color: #120458;
+      border: 2px solid #FF6EFF;
+      height: 24px;
+      width: 100%;
+      margin-bottom: 2rem;
+      position: relative;
+      border-radius: 4px;
+    }
+    
+    .progress {
+      background-color: #5438DC;
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease-in-out;
+      position: relative;
+      border-radius: 2px;
+    }
+    
+    .question {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      color: #FFFFFF;
+      text-shadow: 2px 2px 0 #120458;
+    }
+    
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .option {
+      background-color: #5438DC;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Press Start 2P', cursive;
+      color: #FFFFFF;
+      padding: 1rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+    }
+    
+    .option:hover {
+      background-color: #FF6EFF;
+      color: #120458;
+      transform: translateY(-3px);
+    }
+    
+    .option:active {
+      transform: translateY(1px);
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+    }
+    
+    .result-container {
+      margin-top: 2rem;
+      display: none;
+    }
+    
+    .result-message {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #FF6EFF;
+    }
+    
+    .qr-code {
+      margin: 2rem auto;
+      max-width: 200px;
+      display: none;
+    }
+    
+    .next-btn, .restart-btn {
+      background-color: #FF6EFF;
+      color: #120458;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Press Start 2P', cursive;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+      margin-top: 1rem;
+      display: none;
+    }
+    
+    .next-btn:hover, .restart-btn:hover {
+      background-color: #FFFFFF;
+      transform: translateY(-3px);
+    }
+    
+    .next-btn:active, .restart-btn:active {
+      transform: translateY(1px);
+      box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .feedback {
+      font-size: 1rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      height: 1rem;
+    }
+    
+    .correct {
+      color: #5EFF5E;
+    }
+    
+    .incorrect {
+      color: #FF5E5E;
+    }
+    
+    .score-display {
+      font-size: 1rem;
+      color: #5EFF5E;
+      margin-bottom: 1rem;
+    }
+    
+    .congratulations {
+      font-size: 1.5rem;
+      color: #FF6EFF;
+      text-shadow: 2px 2px 0 #120458;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .pixel-art {
+      display: none;
+      margin: 1rem auto;
+      width: 100px;
+      height: 100px;
+      background-image: radial-gradient(#FF6EFF 3px, transparent 4px);
+      background-size: 10px 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="quiz-title">RETRO ANIME QUIZ</h1>
+    
+    <div class="quiz-container">
+      <div class="progress-bar">
+        <div class="progress"></div>
+      </div>
+      
+      <div class="score-display">SCORE: <span id="score">0</span>/5</div>
+      
+      <div id="question-container">
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+      </div>
+      
+      <div class="feedback" id="feedback"></div>
+      
+      <button class="next-btn" id="next-btn">NEXT</button>
+    </div>
+    
+    <div class="result-container" id="result-container">
+      <h2 class="congratulations" id="congratulations">CHALLENGE COMPLETE!</h2>
+      <div class="pixel-art" id="pixel-art"></div>
+      <div class="result-message" id="result-message"></div>
+      <img src="" alt="QR Code" class="qr-code" id="qr-code">
+      <button class="restart-btn" id="restart-btn">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Quiz questions and answers
+      const questions = [
+        {
+          question: "Which anime features a bounty hunter crew traveling on a spaceship called 'Bebop'?",
+          options: ["Outlaw Star", "Cowboy Bebop", "Space Dandy", "Trigun"],
+          correctAnswer: 1
+        },
+        {
+          question: "In 'Dragon Ball Z', what is the name of Goku's signature energy attack?",
+          options: ["Spirit Bomb", "Final Flash", "Kamehameha", "Special Beam Cannon"],
+          correctAnswer: 2
+        },
+        {
+          question: "Which classic anime film directed by Katsuhiro Otomo is set in Neo-Tokyo after World War III?",
+          options: ["Ghost in the Shell", "Paprika", "Akira", "Perfect Blue"],
+          correctAnswer: 2
+        },
+        {
+          question: "Which anime features a world where humans battle monsters called 'Angels' using giant mechs called 'Evangelions'?",
+          options: ["Neon Genesis Evangelion", "Gurren Lagann", "Code Geass", "Gundam Wing"],
+          correctAnswer: 0
+        },
+        {
+          question: "In 'Sailor Moon', what is the real name of the main character?",
+          options: ["Rei Hino", "Ami Mizuno", "Minako Aino", "Usagi Tsukino"],
+          correctAnswer: 3
+        }
+      ];
+
+      const qrCodeData = "https://youtu.be/dQw4w9WgXcQ"; // Replace with your actual hint link
+      
+      let currentQuestion = 0;
+      let score = 0;
+      let answeredCorrectly = false;
+      
+      const questionElement = document.getElementById('question');
+      const optionsElement = document.getElementById('options');
+      const feedbackElement = document.getElementById('feedback');
+      const nextButton = document.getElementById('next-btn');
+      const resultContainer = document.getElementById('result-container');
+      const resultMessage = document.getElementById('result-message');
+      const qrCodeElement = document.getElementById('qr-code');
+      const restartButton = document.getElementById('restart-btn');
+      const scoreDisplay = document.getElementById('score');
+      const progressBar = document.querySelector('.progress');
+      const congratsElement = document.getElementById('congratulations');
+      const pixelArt = document.getElementById('pixel-art');
+      
+      // Function to load the current question
+      function loadQuestion() {
+        // Update progress bar
+        progressBar.style.width = `${(currentQuestion / questions.length) * 100}%`;
+        
+        // Reset state
+        answeredCorrectly = false;
+        feedbackElement.textContent = '';
+        feedbackElement.className = 'feedback';
+        nextButton.style.display = 'none';
+        
+        // Load new question
+        const question = questions[currentQuestion];
+        questionElement.textContent = question.question;
+        
+        // Clear previous options
+        optionsElement.innerHTML = '';
+        
+        // Add new options
+        question.options.forEach((option, index) => {
+          const button = document.createElement('button');
+          button.className = 'option';
+          button.textContent = option;
+          button.addEventListener('click', () => selectAnswer(index));
+          optionsElement.appendChild(button);
+        });
+      }
+      
+      // Function to handle answer selection
+      function selectAnswer(selectedIndex) {
+        const question = questions[currentQuestion];
+        const options = document.querySelectorAll('.option');
+        
+        // Disable all options after selection
+        options.forEach(option => {
+          option.disabled = true;
+        });
+        
+        if (selectedIndex === question.correctAnswer) {
+          // Correct answer
+          feedbackElement.textContent = 'CORRECT!';
+          feedbackElement.className = 'feedback correct';
+          options[selectedIndex].style.backgroundColor = '#5EFF5E';
+          score++;
+          scoreDisplay.textContent = score;
+          answeredCorrectly = true;
+        } else {
+          // Incorrect answer
+          feedbackElement.textContent = 'WRONG!';
+          feedbackElement.className = 'feedback incorrect';
+          options[selectedIndex].style.backgroundColor = '#FF5E5E';
+          options[question.correctAnswer].style.backgroundColor = '#5EFF5E';
+        }
+        
+        nextButton.style.display = 'inline-block';
+      }
+      
+      // Function to handle next button click
+      nextButton.addEventListener('click', () => {
+        currentQuestion++;
+        
+        if (currentQuestion < questions.length) {
+          loadQuestion();
+        } else {
+          showResult();
+        }
+      });
+      
+      // Function to show final result
+      function showResult() {
+        document.querySelector('.quiz-container').style.display = 'none';
+        resultContainer.style.display = 'block';
+        
+        if (score === questions.length) {
+          congratsElement.style.display = 'block';
+          pixelArt.style.display = 'block';
+          resultMessage.textContent = 'You answered all questions correctly! Here is your reward:';
+          
+          // Generate QR code
+          qrCodeElement.style.display = 'block';
+          const qrcode = new QRCode(qrCodeElement, {
+            text: qrCodeData,
+            width: 200,
+            height: 200,
+            colorDark: "#FF6EFF",
+            colorLight: "#120458",
+            correctLevel: QRCode.CorrectLevel.H
+          });
+        } else {
+          resultMessage.textContent = `You scored ${score} out of ${questions.length}. Try again to unlock the secret!`;
+        }
+        
+        restartButton.style.display = 'inline-block';
+      }
+      
+      // Function to restart the quiz
+      restartButton.addEventListener('click', () => {
+        currentQuestion = 0;
+        score = 0;
+        scoreDisplay.textContent = score;
+        document.querySelector('.quiz-container').style.display = 'block';
+        resultContainer.style.display = 'none';
+        congratsElement.style.display = 'none';
+        pixelArt.style.display = 'none';
+        qrCodeElement.style.display = 'none';
+        qrCodeElement.innerHTML = '';
+        loadQuestion();
+      });
+      
+      // Start the quiz
+      loadQuestion();
+    });
+  </script>
+</body>
+</html>

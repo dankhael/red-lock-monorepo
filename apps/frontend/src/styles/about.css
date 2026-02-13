@@ -1,0 +1,57 @@
+.about-page {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+.about-page h1 {
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 2rem;
+}
+
+.about-page h2 {
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 1.5rem;
+}
+  
+  .about-layout {
+    display: flex;
+    gap: 20px; /* Space between the content and the sidebar */
+  }
+  
+  .about-content {
+    flex: 3; /* Main content takes up more space */
+  }
+
+  .sidebar-container {
+    flex: 1; /* Sidebar takes up less space */
+  }
+  
+  .about-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .about-text {
+    flex: 1;
+  }
+  
+  .about-text h2 {
+    margin-top: 20px;
+  }
+  
+  .social-media a {
+    display: inline-block;
+    margin-right: 10px;
+    color: #e093a4;
+  }
+  
+  .social-media a:hover {
+    text-decoration: underline;
+  }
+  
+  .social-media p {
+    margin: 5px 0;
+  }
