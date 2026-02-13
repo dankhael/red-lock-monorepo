@@ -111,7 +111,7 @@ jobs:
 
   deploy-backend:
     runs-on: ubuntu-latest
-    needs: test
+    needs: [test, deploy-frontend]
     environment: env.production
 
     steps:
