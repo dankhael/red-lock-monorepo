@@ -10,7 +10,7 @@ export default {
       throw new Error(`Last.fm API error: ${response.status} ${response.statusText}`);
     }
 
-    const data = await response.json();
+    const data: any = await response.json();
     return data.recenttracks?.track || [];
   },
 };
