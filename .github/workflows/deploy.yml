@@ -143,6 +143,9 @@ jobs:
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_SSL: true
 
+      - name: Clean up Strapi temp files
+        run: rm -f apps/backend/.strapi-updater.json
+
       - name: Deploy backend to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
