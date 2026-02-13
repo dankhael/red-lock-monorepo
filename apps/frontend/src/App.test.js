@@ -8,6 +8,6 @@ test('renders header with site name', () => {
       <App />
     </BrowserRouter>
   );
-  const headerElement = screen.getByText(/Red Lock/i);
-  expect(headerElement).toBeInTheDocument();
+  expect(screen.getByText('RED')).toBeInTheDocument();
+  expect(screen.getByText('BOX')).toBeInTheDocument();
 });

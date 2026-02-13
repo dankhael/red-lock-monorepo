@@ -53,7 +53,7 @@
   },
   "jest": {
     "transformIgnorePatterns": [
-      "node_modules/(?!(axios|react-markdown|remark-.*|mdast-util-.*|micromark|micromark-.*|unist-util-.*|hast-util-.*|devlop|ccount|escape-string-regexp|markdown-table|property-information|comma-separated-tokens|space-separated-tokens|zwitch|html-void-elements|stringify-entities|character-entities.*|character-reference-invalid|is-decimal|is-hexadecimal|is-alphabetical|is-alphanumerical|trim-lines|vfile|vfile-message|decode-named-character-reference|longest-streak|react-icons)/)"
+      "node_modules/(?!(axios|react-icons)/)"
     ]
   }
 }
