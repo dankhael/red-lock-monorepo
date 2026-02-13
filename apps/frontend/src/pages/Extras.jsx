@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
 import OnConstruction from '../components/common/OnConstruction';
 
 function Extras() {

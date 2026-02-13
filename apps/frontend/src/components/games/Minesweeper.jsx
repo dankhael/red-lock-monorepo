@@ -1,65 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+
+const createBoard = (rows, cols, mines) => {
+  const newBoard = Array(rows).fill().map(() =>
+    Array(cols).fill({ isMine: false, adjacentMines: 0, isRevealed: false })
+  );
+
+  let minesPlaced = 0;
+  while (minesPlaced < mines) {
+    const row = Math.floor(Math.random() * rows);
+    const col = Math.floor(Math.random() * cols);
+    if (!newBoard[row][col].isMine) {
+      newBoard[row][col] = { ...newBoard[row][col], isMine: true };
+      minesPlaced++;
+    }
+  }
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      if (!newBoard[r][c].isMine) {
+        let count = 0;
+        for (let dr = Math.max(0, r - 1); dr <= Math.min(rows - 1, r + 1); dr++) {
+          for (let dc = Math.max(0, c - 1); dc <= Math.min(cols - 1, c + 1); dc++) {
+            if (newBoard[dr][dc].isMine) count++;
+          }
+        }
+        newBoard[r][c] = { ...newBoard[r][c], adjacentMines: count };
+      }
+    }
+  }
+
+  return newBoard;
+};
 
 const Minesweeper = ({ rows = 10, cols = 10, mines = 10 }) => {
-  const [board, setBoard] = useState([]);
+  const [board, setBoard] = useState(() => createBoard(rows, cols, mines));
   const [gameStatus, setGameStatus] = useState('playing');
   const [revealedCells, setRevealedCells] = useState(new Set());
   const [flaggedCells, setFlaggedCells] = useState(new Set());
 
-  // Initialize the game board
-  useEffect(() => {
-    initializeBoard();
-  }, []);
-
   const initializeBoard = () => {
-    // Create an empty board
-    const newBoard = Array(rows).fill().map(() => 
-      Array(cols).fill({ isMine: false, adjacentMines: 0, isRevealed: false })
-    );
-
-    // Place mines randomly
-    let minesPlaced = 0;
-    while (minesPlaced < mines) {
-      const row = Math.floor(Math.random() * rows);
-      const col = Math.floor(Math.random() * cols);
-      
-      if (!newBoard[row][col].isMine) {
-        newBoard[row][col] = { ...newBoard[row][col], isMine: true };
-        minesPlaced++;
-      }
-    }
-
-    // Calculate adjacent mines for each cell
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        if (!newBoard[r][c].isMine) {
-          newBoard[r][c] = {
-            ...newBoard[r][c],
-            adjacentMines: countAdjacentMines(newBoard, r, c)
-          };
-        }
-      }
-    }
-
-    setBoard(newBoard);
+    setBoard(createBoard(rows, cols, mines));
     setRevealedCells(new Set());
     setFlaggedCells(new Set());
     setGameStatus('playing');
   };
 
-  const countAdjacentMines = (board, row, col) => {
-    let count = 0;
-    for (let r = Math.max(0, row - 1); r <= Math.min(rows - 1, row + 1); r++) {
-      for (let c = Math.max(0, col - 1); c <= Math.min(cols - 1, col + 1); c++) {
-        if (board[r][c].isMine) count++;
-      }
-    }
-    return count;
-  };
-
   const revealCell = (row, col) => {
-    if (gameStatus !== 'playing' || 
-        revealedCells.has(`${row},${col}`) || 
+    if (gameStatus !== 'playing' ||
+        revealedCells.has(`${row},${col}`) ||
         flaggedCells.has(`${row},${col}`)) return;
 
     const newBoard = [...board];
@@ -70,17 +58,13 @@ const Minesweeper = ({ rows = 10, cols = 10, mines = 10 }) => {
       const [currentRow, currentCol] = cellsToReveal.pop();
       const cellKey = `${currentRow},${currentCol}`;
 
-      // Skip if already revealed or flagged
-      if (newRevealedCells.has(cellKey) || 
+      if (newRevealedCells.has(cellKey) ||
           flaggedCells.has(cellKey)) continue;
 
-      // Add to revealed cells
       newRevealedCells.add(cellKey);
 
-      // If it's a mine, game over
       if (newBoard[currentRow][currentCol].isMine) {
         setGameStatus('lost');
-        // Reveal all cells
         for (let r = 0; r < rows; r++) {
           for (let c = 0; c < cols; c++) {
             newRevealedCells.add(`${r},${c}`);
@@ -90,13 +74,11 @@ const Minesweeper = ({ rows = 10, cols = 10, mines = 10 }) => {
         return;
       }
 
-      // Mark cell as revealed
       newBoard[currentRow][currentCol] = {
         ...newBoard[currentRow][currentCol],
         isRevealed: true
       };
 
-      // If cell has no adjacent mines, add neighboring cells to reveal
       if (newBoard[currentRow][currentCol].adjacentMines === 0) {
         for (let r = Math.max(0, currentRow - 1); r <= Math.min(rows - 1, currentRow + 1); r++) {
           for (let c = Math.max(0, currentCol - 1); c <= Math.min(cols - 1, currentCol + 1); c++) {
@@ -111,7 +93,6 @@ const Minesweeper = ({ rows = 10, cols = 10, mines = 10 }) => {
     setBoard(newBoard);
     setRevealedCells(newRevealedCells);
 
-    // Check if all non-mine cells are revealed
     const nonMineCells = rows * cols - mines;
     if (newRevealedCells.size === nonMineCells) {
       setGameStatus('won');
@@ -156,7 +137,7 @@ const Minesweeper = ({ rows = 10, cols = 10, mines = 10 }) => {
     }
 
     return (
-      <div 
+      <div
         key={cellKey}
         className={cellClass}
         onClick={() => revealCell(row, col)}
@@ -173,15 +154,15 @@ const Minesweeper = ({ rows = 10, cols = 10, mines = 10 }) => {
         {gameStatus === 'won' && 'Tava fácil, né? Parabéns!'}
         {gameStatus === 'lost' && 'Game over noob!'}
       </div>
-      <div 
-        className="board" 
+      <div
+        className="board"
         style={{
           display: 'grid',
           gridTemplateColumns: `repeat(${cols}, 40px)`,
           gap: '2px'
         }}
       >
-        {board.map((row, rowIndex) => 
+        {board.map((row, rowIndex) =>
           row.map((_, colIndex) => renderCell(rowIndex, colIndex))
         )}
       </div>

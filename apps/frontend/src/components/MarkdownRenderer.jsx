@@ -9,13 +9,13 @@ function MarkdownRenderer({ content }) {
         remarkPlugins={[remarkGfm]}
         components={{
           // Custom components for different elements
-          h1: ({node, ...props}) => <h1 className="markdown-h1" {...props} />,
-          h2: ({node, ...props}) => <h2 className="markdown-h2" {...props} />,
+          h1: ({node, children, ...props}) => <h1 className="markdown-h1" {...props}>{children}</h1>,
+          h2: ({node, children, ...props}) => <h2 className="markdown-h2" {...props}>{children}</h2>,
           p: ({node, ...props}) => <p className="markdown-p" {...props} />,
           strong: ({node, ...props}) => <strong className="markdown-bold" {...props} />,
           em: ({node, ...props}) => <em className="markdown-italic" {...props} />,
           code: ({node, inline, ...props}) => (
-            inline ? 
+            inline ?
               <code className="markdown-inline-code" {...props} /> :
               <code className="markdown-code-block" {...props} />
           )

@@ -1,28 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import GameList from '../components/games/GameList';
+import React from 'react';
 import '../styles/games.css';
-import { getGames } from '../services/gameService';
 import OnConstruction from '../components/common/OnConstruction';
 
 function Games() {
-  const [games, setGames] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  useEffect(() => {
-    const loadGames = async () => {
-      setIsLoading(true);
-      try {
-        const gamesData = await getGames();
-        setGames(gamesData);
-      } catch (error) {
-        console.error('Failed to load games:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    
-    loadGames();
-  }, []);
   
   return (
     <div className="games-page">

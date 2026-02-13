@@ -79,8 +79,6 @@ export const getPostBySlug = async (slug) => {
     return null;
   }
 
-  let formats_length = response.data.data[0].coverImage.formats.length;
-
   const formats = response.data.data[0].coverImage.formats;
   const availableFormats = ['large', 'medium', 'small', 'thumbnail'];
   let selectedFormat = null;

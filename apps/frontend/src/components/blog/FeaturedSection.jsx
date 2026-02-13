@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import PostCard from './PostCard';
+
 import { getFeaturedPosts } from '../../services/blogService';
 import '../../styles/featuredSection.css';
 
