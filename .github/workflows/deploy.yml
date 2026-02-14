@@ -38,6 +38,8 @@ jobs:
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
           REACT_APP_READER_TOKEN: ${{ secrets.REACT_APP_READER_TOKEN }}
           REACT_APP_USE_MOCK_DATA: false
+          REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.REACT_APP_GA_MEASUREMENT_ID }}
+          REACT_APP_DISQUS_SHORTNAME: ${{ secrets.REACT_APP_DISQUS_SHORTNAME }}
 
       - name: Build backend (validation only)
         run: npm run build --workspace=apps/backend
@@ -80,6 +82,8 @@ jobs:
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
           REACT_APP_READER_TOKEN: ${{ secrets.REACT_APP_READER_TOKEN }}
           REACT_APP_USE_MOCK_DATA: false
+          REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.REACT_APP_GA_MEASUREMENT_ID }}
+          REACT_APP_DISQUS_SHORTNAME: ${{ secrets.REACT_APP_DISQUS_SHORTNAME }}
 
       - name: Remove old frontend files
         uses: appleboy/ssh-action@v1
@@ -182,6 +186,7 @@ jobs:
             echo "DATABASE_PASSWORD=${DATABASE_PASSWORD}" >> .env.production
             echo "DATABASE_SSL=true" >> .env.production
             echo "DATABASE_SSL_REJECT_UNAUTHORIZED=false" >> .env.production
+            echo "SITE_URL=https://dankredbox.com" >> .env.production
             echo "LASTFM_API_KEY=${LASTFM_API_KEY}" >> .env.production
             echo "LASTFM_USER=${LASTFM_USER}" >> .env.production
         env:
