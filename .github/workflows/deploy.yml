@@ -160,7 +160,7 @@ jobs:
           target: /root/RBox/red-lock/
           strip_components: 2
           overwrite: true
-          timeout: 120s
+          timeout: 180s
 
       - name: Create .env.production on VPS
         uses: appleboy/ssh-action@v1
