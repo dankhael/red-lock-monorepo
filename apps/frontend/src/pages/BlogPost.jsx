@@ -6,6 +6,7 @@ import { formatDate } from '../utils/formatDate';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import '../styles/blogPost.css';
 import Sidebar from '../components/common/Sidebar';
+import DisqusComments from '../components/common/DisqusComments';
 
 function BlogPost() {
   const { slug } = useParams();
@@ -71,6 +72,8 @@ function BlogPost() {
           <div className="post-wrapper">
             <MarkdownRenderer content={post.content} />
           </div>
+
+          <DisqusComments slug={slug} title={post.title} />
         </article>
 
         <Sidebar />

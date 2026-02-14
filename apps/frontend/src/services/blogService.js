@@ -230,6 +230,34 @@ export const getActivities = async () => {
   return response.data.data;
 }
 
+export const getLastFmTracks = async () => {
+  if (USE_MOCK_DATA) {
+    return [
+      {
+        name: 'Pacato Cidadão',
+        artist: { '#text': 'Skank' },
+        image: [
+          { '#text': '' },
+          { '#text': 'https://lastfm.freetls.fastly.net/i/u/64s/2a96cbd8b46e442fc41c2b86b821562f.png' },
+        ],
+        album: { '#text': 'Calango' },
+      },
+      {
+        name: 'Paranoid Android',
+        artist: { '#text': 'Radiohead' },
+        image: [
+          { '#text': '' },
+          { '#text': 'https://lastfm.freetls.fastly.net/i/u/64s/2a96cbd8b46e442fc41c2b86b821562f.png' },
+        ],
+        album: { '#text': 'OK Computer' },
+      },
+    ];
+  }
+
+  const response = await api.get('/lastfm/recent-tracks');
+  return response.data.data;
+};
+
 export const getAboutInfo = async () => {
   if (USE_MOCK_DATA) {
     return {

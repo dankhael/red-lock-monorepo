@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 
 // Import pages (we'll create these next)
@@ -15,11 +15,27 @@ import GameDetail from './pages/GameDetail';
 // Import Layout component (we'll create this next)
 import Layout from './components/common/Layout';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import { initGA, trackPageView } from './utils/analytics';
+
+function PageTracker() {
+  const location = useLocation();
+
+  useEffect(() => {
+    initGA();
+  }, []);
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+
+  return null;
+}
 
 function App() {
   return (
     <ErrorBoundary>
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <PageTracker />
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />

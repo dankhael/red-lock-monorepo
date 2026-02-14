@@ -68,3 +68,10 @@
   flex: 1;
   max-width: 300px; /* Optional: Limit the sidebar width */
 }
+
+/* Disqus comments section */
+.disqus-comments {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e0e0e0;
+}
