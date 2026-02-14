@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "guestbook_entries",
+  "info": {
+    "singularName": "guestbook-entry",
+    "pluralName": "guestbook-entries",
+    "displayName": "Guestbook Entry",
+    "description": "Visitor guestbook entries"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "authorName": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "message": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500
+    },
+    "website": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "approved": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

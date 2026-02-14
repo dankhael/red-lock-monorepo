@@ -1,4 +1,184 @@
+.guestbook-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
 .guestbook-page h1 {
-    font-family: 'Press Start 2P', sans-serif;
-    font-size: 2rem;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.guestbook-intro {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+/* Form */
+.guestbook-form {
+  background: #fff;
+  border: 2px solid #e093a4;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.guestbook-form h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.guestbook-field {
+  margin-bottom: 1rem;
+}
+
+.guestbook-field label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.guestbook-field input,
+.guestbook-field textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.guestbook-field input:focus,
+.guestbook-field textarea:focus {
+  outline: none;
+  border-color: #e093a4;
+  box-shadow: 0 0 0 2px rgba(224, 147, 164, 0.2);
+}
+
+.guestbook-char-count {
+  display: block;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 0.2rem;
+}
+
+.guestbook-error {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.guestbook-btn {
+  background: #e093a4;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.guestbook-btn:hover {
+  background: #c97a8b;
+}
+
+.guestbook-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Success */
+.guestbook-form-success {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.guestbook-form-success p {
+  color: #155724;
+  margin-bottom: 1rem;
+}
+
+/* Entries */
+.guestbook-entries {
+  margin-top: 2rem;
+}
+
+.guestbook-entries h2 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.guestbook-entry {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.guestbook-entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.guestbook-author {
+  font-weight: bold;
+  color: #333;
+}
+
+.guestbook-date {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.guestbook-message {
+  color: #444;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+}
+
+.guestbook-website {
+  font-size: 0.85rem;
+  color: #e093a4;
+  text-decoration: none;
+}
+
+.guestbook-website:hover {
+  text-decoration: underline;
+}
+
+/* Loading & Empty */
+.guestbook-loading,
+.guestbook-empty {
+  text-align: center;
+  color: #999;
+  padding: 2rem;
+}
+
+/* Pagination */
+.guestbook-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.guestbook-pagination span {
+  color: #666;
+  font-size: 0.9rem;
 }
