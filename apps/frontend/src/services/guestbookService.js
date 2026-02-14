@@ -63,6 +63,8 @@ export const submitGuestbookEntry = async ({ authorName, message, website }) => 
 
   const response = await api.post('/guestbook-entries', {
     data: { authorName, message, website },
+  }, {
+    headers: { Authorization: '' },
   });
   return response.data;
 };
