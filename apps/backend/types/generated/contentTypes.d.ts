@@ -490,6 +490,50 @@ export interface ApiFeaturedImageFeaturedImage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiGuestbookEntryGuestbookEntry
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'guestbook_entries';
+  info: {
+    description: 'Visitor guestbook entries';
+    displayName: 'Guestbook Entry';
+    pluralName: 'guestbook-entries';
+    singularName: 'guestbook-entry';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    approved: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    authorName: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 100;
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::guestbook-entry.guestbook-entry'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 500;
+      }>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    website: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 200;
+      }>;
+  };
+}
+
 export interface ApiGameGame extends Struct.CollectionTypeSchema {
   collectionName: 'games';
   info: {
@@ -1099,6 +1143,7 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::featured-image.featured-image': ApiFeaturedImageFeaturedImage;
       'api::game.game': ApiGameGame;
+      'api::guestbook-entry.guestbook-entry': ApiGuestbookEntryGuestbookEntry;
       'api::post.post': ApiPostPost;
       'api::quote.quote': ApiQuoteQuote;
       'plugin::content-releases.release': PluginContentReleasesRelease;
