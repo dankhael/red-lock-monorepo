@@ -1,0 +1,282 @@
+/* ============================================
+   PÁGINA DE RECOMENDAÇÕES
+   ============================================ */
+
+.recommendations-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 0 3rem;
+}
+
+.recommendations-page h1 {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.recommendations-intro {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* ============================================
+   NAVEGAÇÃO POR CATEGORIA
+   ============================================ */
+
+.rec-category-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2.5rem;
+  padding: 1rem;
+  background: #fafafa;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.rec-category-nav-btn {
+  padding: 0.5rem 1.2rem;
+  background: #fff;
+  border: 2px solid #e093a4;
+  border-radius: 20px;
+  color: #333;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rec-category-nav-btn:hover {
+  background: #e093a4;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(224, 147, 164, 0.4);
+}
+
+/* ============================================
+   SEÇÃO DE CATEGORIA
+   ============================================ */
+
+.rec-category-section {
+  margin-bottom: 3rem;
+  scroll-margin-top: 1rem;
+}
+
+/* Header da categoria com marquee */
+.rec-category-header {
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem 0;
+  margin-bottom: 0;
+}
+
+/* Marquee de fundo */
+.rec-marquee-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.rec-marquee-track {
+  display: flex;
+  white-space: nowrap;
+  font-family: 'Upheavel', 'Press Start 2P', sans-serif;
+  font-size: 4rem;
+  font-weight: bold;
+  color: #333;
+  animation: marquee-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+.rec-marquee-track span {
+  flex-shrink: 0;
+  padding-right: 2rem;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Título da categoria */
+.rec-category-title {
+  position: relative;
+  font-family: 'Upheavel', 'Press Start 2P', sans-serif;
+  font-size: 2rem;
+  color: #333;
+  margin: 0;
+  z-index: 1;
+}
+
+/* Divider rosa */
+.rec-divider {
+  height: 3px;
+  background: linear-gradient(to right, #e093a4, transparent);
+  margin-bottom: 1.5rem;
+  border-radius: 2px;
+}
+
+/* ============================================
+   GRID DE CARDS
+   ============================================ */
+
+.rec-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+/* ============================================
+   CARD DE RECOMENDAÇÃO
+   ============================================ */
+
+.rec-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #f0f0f0;
+}
+
+.rec-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.rec-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay no hover */
+.rec-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.rec-card:hover .rec-card-overlay {
+  opacity: 1;
+}
+
+.rec-card-name {
+  color: #fff;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 0.65rem;
+  margin: 0 0 0.4rem 0;
+  line-height: 1.4;
+}
+
+.rec-card-comment {
+  color: #ddd;
+  font-size: 0.8rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+
+@media (max-width: 991px) {
+  .recommendations-page h1 {
+    font-size: 1.5rem;
+  }
+
+  .rec-category-title {
+    font-size: 1.5rem;
+  }
+
+  .rec-marquee-track {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .recommendations-page {
+    padding: 1rem 0.5rem 2rem;
+  }
+
+  .recommendations-page h1 {
+    font-size: 1.2rem;
+  }
+
+  .rec-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .rec-category-title {
+    font-size: 1.2rem;
+  }
+
+  .rec-marquee-track {
+    font-size: 2.5rem;
+  }
+
+  .rec-category-nav {
+    gap: 0.4rem;
+    padding: 0.8rem;
+  }
+
+  .rec-category-nav-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 479px) {
+  .rec-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .rec-card-name {
+    font-size: 0.55rem;
+  }
+
+  .rec-card-comment {
+    font-size: 0.7rem;
+  }
+}
+
+/* Acessibilidade: reduzir movimento */
+@media (prefers-reduced-motion: reduce) {
+  .rec-marquee-track {
+    animation: none;
+  }
+
+  .rec-card {
+    transition: none;
+  }
+
+  .rec-card-overlay {
+    transition: none;
+  }
+
+  .rec-category-nav-btn {
+    transition: none;
+  }
+}

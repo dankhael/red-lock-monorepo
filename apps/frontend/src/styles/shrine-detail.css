@@ -1,0 +1,550 @@
+/* ============================================
+   PÁGINA INDIVIDUAL DO SHRINE
+   Usa CSS custom properties para tematização
+   --shrine-primary, --shrine-secondary,
+   --shrine-bg, --shrine-text, --shrine-accent
+   ============================================ */
+
+.shrine-detail-page {
+  background: var(--shrine-bg, #f5f5f5);
+  color: var(--shrine-text, #1a1a2e);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   SHRINE NÃO ENCONTRADO
+   ============================================ */
+
+.shrine-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 2rem;
+  background: #1a1a2e;
+  color: #fff;
+}
+
+.shrine-not-found h1 {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.shrine-not-found p {
+  color: #aaa;
+  margin-bottom: 2rem;
+}
+
+.shrine-not-found-link {
+  color: #e093a4;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.shrine-not-found-link:hover {
+  color: #fff;
+}
+
+/* ============================================
+   MINI-HEADER
+   ============================================ */
+
+.shrine-mini-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.5rem;
+  background: var(--shrine-secondary, #333);
+  color: #fff;
+}
+
+.shrine-back-btn {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+}
+
+.shrine-back-btn:hover {
+  opacity: 1;
+}
+
+.shrine-mini-title {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 0.6rem;
+  text-align: right;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.shrine-hero {
+  position: relative;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--shrine-primary, #1a1a2e);
+}
+
+.shrine-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem;
+}
+
+.shrine-hero-title {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 1.2rem;
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  line-height: 1.6;
+}
+
+.shrine-hero-tagline {
+  color: #ddd;
+  font-size: 1rem;
+  font-style: italic;
+  margin: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   TABS
+   ============================================ */
+
+.shrine-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--shrine-primary, #4fc3f7);
+  background: var(--shrine-bg, #f5f5f5);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.shrine-tab-btn {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 0.6rem;
+  color: var(--shrine-text, #333);
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  margin-bottom: -2px;
+}
+
+.shrine-tab-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.shrine-tab-btn.active {
+  border-bottom-color: var(--shrine-accent, #ff6f00);
+  color: var(--shrine-primary, #4fc3f7);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* ============================================
+   CONTEÚDO PRINCIPAL
+   ============================================ */
+
+.shrine-content {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  flex: 1;
+}
+
+/* ============================================
+   TAB: SOBRE (com infobox)
+   ============================================ */
+
+.shrine-about {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.shrine-infobox {
+  flex: 0 0 250px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 2px solid var(--shrine-primary, #4fc3f7);
+  border-radius: 12px;
+  padding: 1.2rem;
+  order: 2;
+}
+
+.shrine-infobox-title {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 0.7rem;
+  color: var(--shrine-primary, #4fc3f7);
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.shrine-infobox-list {
+  margin: 0;
+  padding: 0;
+}
+
+.shrine-infobox-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.shrine-infobox-item:last-child {
+  border-bottom: none;
+}
+
+.shrine-infobox-item dt {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--shrine-primary, #4fc3f7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+}
+
+.shrine-infobox-item dd {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--shrine-text, #333);
+}
+
+.shrine-about-text {
+  flex: 1;
+  order: 1;
+}
+
+.shrine-about-text p {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin: 0 0 1.2rem 0;
+}
+
+.shrine-about-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================
+   TAB: GALERIA
+   ============================================ */
+
+.shrine-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.shrine-gallery-item {
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shrine-gallery-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.shrine-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  aspect-ratio: 3/2;
+}
+
+/* Lightbox */
+.shrine-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.shrine-lightbox img {
+  max-width: 85vw;
+  max-height: 85vh;
+  object-fit: contain;
+  cursor: default;
+  border-radius: 4px;
+}
+
+.shrine-lightbox-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.5rem;
+  cursor: pointer;
+  line-height: 1;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  z-index: 1001;
+}
+
+.shrine-lightbox-close:hover {
+  opacity: 1;
+}
+
+.shrine-lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  font-size: 3rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  opacity: 0.7;
+  transition: opacity 0.2s, background 0.2s;
+  z-index: 1001;
+}
+
+.shrine-lightbox-nav:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.shrine-lightbox-prev {
+  left: 1rem;
+}
+
+.shrine-lightbox-next {
+  right: 1rem;
+}
+
+/* ============================================
+   TAB: CITAÇÕES
+   ============================================ */
+
+.shrine-quotes {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.shrine-quote-card {
+  background: rgba(0, 0, 0, 0.04);
+  border-left: 4px solid var(--shrine-accent, #ff6f00);
+  border-radius: 0 8px 8px 0;
+  padding: 1.5rem;
+  margin: 0;
+  position: relative;
+}
+
+.shrine-quote-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  font-style: italic;
+  margin: 0 0 0.8rem 0;
+  color: var(--shrine-text, #333);
+}
+
+.shrine-quote-source {
+  font-size: 0.85rem;
+  color: var(--shrine-primary, #4fc3f7);
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* ============================================
+   TAB: LINKS
+   ============================================ */
+
+.shrine-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.shrine-links-anchor {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 1.2rem;
+  background: rgba(0, 0, 0, 0.04);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--shrine-text, #333);
+  transition: all 0.2s ease;
+}
+
+.shrine-links-anchor:hover {
+  border-color: var(--shrine-primary, #4fc3f7);
+  background: rgba(0, 0, 0, 0.06);
+  transform: translateX(4px);
+}
+
+.shrine-links-icon {
+  font-size: 1.2rem;
+  color: var(--shrine-primary, #4fc3f7);
+  flex-shrink: 0;
+}
+
+.shrine-links-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+
+@media (max-width: 991px) {
+  .shrine-about {
+    flex-direction: column;
+  }
+
+  .shrine-infobox {
+    flex: none;
+    width: 100%;
+    order: 1;
+  }
+
+  .shrine-about-text {
+    order: 2;
+  }
+
+  .shrine-hero {
+    height: 250px;
+  }
+
+  .shrine-hero-title {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .shrine-mini-header {
+    padding: 0.6rem 1rem;
+  }
+
+  .shrine-mini-title {
+    font-size: 0.5rem;
+    max-width: 50%;
+  }
+
+  .shrine-hero {
+    height: 200px;
+  }
+
+  .shrine-hero-overlay {
+    padding: 1.5rem;
+  }
+
+  .shrine-hero-title {
+    font-size: 0.8rem;
+  }
+
+  .shrine-hero-tagline {
+    font-size: 0.85rem;
+  }
+
+  .shrine-tab-btn {
+    padding: 0.8rem 0.5rem;
+    font-size: 0.5rem;
+  }
+
+  .shrine-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .shrine-gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .shrine-lightbox-nav {
+    font-size: 2rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .shrine-quote-card {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 479px) {
+  .shrine-gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .shrine-hero-title {
+    font-size: 0.65rem;
+  }
+
+  .shrine-tab-btn {
+    font-size: 0.45rem;
+    padding: 0.7rem 0.3rem;
+  }
+
+  .shrine-lightbox-prev {
+    left: 0.3rem;
+  }
+
+  .shrine-lightbox-next {
+    right: 0.3rem;
+  }
+}
+
+/* Acessibilidade: reduzir movimento */
+@media (prefers-reduced-motion: reduce) {
+  .shrine-gallery-item {
+    transition: none;
+  }
+
+  .shrine-links-anchor {
+    transition: none;
+  }
+
+  .shrine-tab-btn {
+    transition: none;
+  }
+}
