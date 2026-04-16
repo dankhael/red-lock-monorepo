@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { shrineIndex } from '../data/shrines';
 import ShrineSlot from '../components/shrines/ShrineSlot';
 import '../styles/shrines.css';
 
 function Shrines() {
+  useEffect(() => {
+    const previous = document.body.style.backgroundColor;
+    document.body.style.backgroundColor = '#1a1a2e';
+    return () => {
+      document.body.style.backgroundColor = previous;
+    };
+  }, []);
+
   return (
     <div className="shrines-page">
       <div className="shrines-title-container">
