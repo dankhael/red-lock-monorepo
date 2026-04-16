@@ -1,0 +1,291 @@
+/* ============================================
+   PÁGINA DE SHRINES (ÍNDICE)
+   ============================================ */
+
+.shrines-page {
+  background: #1a1a2e;
+  color: #fff;
+  padding: 2rem 1rem;
+  min-height: 60vh;
+  margin: -20px;
+  border-radius: 0;
+}
+
+/* ============================================
+   TÍTULO COM GLOW
+   ============================================ */
+
+.shrines-title-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.shrines-title {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 2.5rem;
+  color: #fff;
+  margin: 0 0 0.8rem 0;
+  text-shadow:
+    0 0 10px #e093a4,
+    0 0 20px #e093a4,
+    0 0 40px #e093a4,
+    0 0 80px #e093a4;
+  animation: glow-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+  from {
+    text-shadow:
+      0 0 10px #e093a4,
+      0 0 20px #e093a4,
+      0 0 30px #e093a4;
+  }
+  to {
+    text-shadow:
+      0 0 15px #e093a4,
+      0 0 30px #e093a4,
+      0 0 60px #e093a4,
+      0 0 100px #e093a4;
+  }
+}
+
+.shrines-subtitle {
+  font-size: 1rem;
+  color: #aaa;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ============================================
+   BORDA RETRO AO REDOR DO GRID
+   ============================================ */
+
+.shrines-grid-border {
+  border: 4px solid #e093a4;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 0 auto;
+  max-width: 900px;
+  box-shadow:
+    inset 0 0 0 2px #1a1a2e,
+    inset 0 0 0 6px #e093a4,
+    0 0 30px rgba(224, 147, 164, 0.2);
+}
+
+/* ============================================
+   GRID DE SLOTS
+   ============================================ */
+
+.shrines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+}
+
+/* ============================================
+   SLOT DE SHRINE
+   ============================================ */
+
+.shrine-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  width: 100%;
+  max-width: 160px;
+  padding: 1rem;
+  border: 3px solid var(--slot-color, #666);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Slot ativo */
+.shrine-slot--active {
+  cursor: pointer;
+}
+
+.shrine-slot--active:hover {
+  animation: slot-bounce 0.4s ease;
+  box-shadow:
+    0 0 15px var(--slot-color),
+    0 0 30px var(--slot-color),
+    0 0 45px color-mix(in srgb, var(--slot-color) 50%, transparent);
+  border-color: #fff;
+}
+
+@keyframes slot-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.shrine-slot-icon {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  border: 2px solid var(--slot-color);
+}
+
+.shrine-slot-name {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 0.6rem;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.shrine-slot--active:hover .shrine-slot-name {
+  text-shadow: 0 0 10px var(--slot-color);
+}
+
+/* Slot vazio */
+.shrine-slot--empty {
+  opacity: 0.4;
+  cursor: default;
+  border-style: dashed;
+}
+
+.shrine-slot-icon-placeholder {
+  width: 100%;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 2rem;
+  color: #666;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  border: 2px dashed #444;
+}
+
+/* ============================================
+   TOOLTIP
+   ============================================ */
+
+.shrine-slot-tooltip {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  background: #2a2a4a;
+  border: 2px solid var(--slot-color);
+  border-radius: 8px;
+  padding: 0.8rem;
+  min-width: 180px;
+  max-width: 220px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.shrine-slot--active:hover .shrine-slot-tooltip {
+  opacity: 1;
+}
+
+.shrine-slot-category-icon {
+  font-size: 1.2rem;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.shrine-slot-tagline {
+  font-size: 0.75rem;
+  color: #ccc;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+
+@media (max-width: 991px) {
+  .shrines-title {
+    font-size: 2rem;
+  }
+
+  .shrines-grid-border {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .shrines-page {
+    padding: 1.5rem 0.5rem;
+    margin: -20px -10px;
+  }
+
+  .shrines-title {
+    font-size: 1.5rem;
+  }
+
+  .shrines-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+
+  .shrines-grid-border {
+    padding: 1rem;
+    border-width: 3px;
+  }
+
+  .shrine-slot {
+    padding: 0.8rem;
+  }
+
+  .shrine-slot-name {
+    font-size: 0.5rem;
+  }
+
+  .shrine-slot-tooltip {
+    display: none;
+  }
+}
+
+@media (max-width: 479px) {
+  .shrines-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .shrines-title {
+    font-size: 1.2rem;
+  }
+
+  .shrines-subtitle {
+    font-size: 0.85rem;
+  }
+}
+
+/* Acessibilidade: reduzir movimento */
+@media (prefers-reduced-motion: reduce) {
+  .shrines-title {
+    animation: none;
+  }
+
+  .shrine-slot--active:hover {
+    animation: none;
+    transform: scale(1.02);
+  }
+
+  .shrine-slot {
+    transition: none;
+  }
+
+  .shrine-slot-tooltip {
+    transition: none;
+  }
+}

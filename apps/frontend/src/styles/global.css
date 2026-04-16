@@ -257,7 +257,7 @@
   margin-bottom: 1rem; /* Increase bottom margin for more gap */
 }
 
-.navigation ul {
+.navigation > ul {
   display: flex;
   gap: 1.5rem; /* Adjust gap for a balanced look */
   list-style: none;

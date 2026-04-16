@@ -1,0 +1,104 @@
+/* ============================================
+   PÁGINA EXTRAS (HUB)
+   ============================================ */
+
+.extras-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 0 3rem;
+}
+
+.extras-page h1 {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.extras-intro {
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.extras-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.extras-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2.5rem 2rem;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.extras-card:hover {
+  transform: translateY(-4px);
+  border-color: #e093a4;
+  box-shadow: 0 8px 24px rgba(224, 147, 164, 0.2);
+}
+
+.extras-card--dark {
+  background: #1a1a2e;
+  color: #fff;
+  border-color: #333;
+}
+
+.extras-card--dark:hover {
+  border-color: #e093a4;
+  box-shadow: 0 8px 24px rgba(224, 147, 164, 0.3);
+}
+
+.extras-card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.extras-card h2 {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 1rem;
+  margin: 0 0 0.8rem 0;
+}
+
+.extras-card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.extras-card--dark p {
+  color: #aaa;
+}
+
+/* Responsivo */
+@media (max-width: 767px) {
+  .extras-page h1 {
+    font-size: 1.5rem;
+  }
+
+  .extras-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .extras-card {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .extras-card {
+    transition: none;
+  }
+}

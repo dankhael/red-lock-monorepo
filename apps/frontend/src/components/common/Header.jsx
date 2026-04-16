@@ -47,7 +47,13 @@ function Header() {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/blog">Blog</Link></li>
             <li><Link to="/games">Games</Link></li>
-            <li><Link to="/extras">Extras</Link></li>
+            <li className="nav-dropdown">
+              <Link to="/extras">Extras</Link>
+              <ul className="nav-dropdown-menu">
+                <li><Link to="/recomendacoes">Recomendações</Link></li>
+                <li><Link to="/shrines">Shrines</Link></li>
+              </ul>
+            </li>
             <li><Link to="/guestbook">Guestbook</Link></li>
             <li><Link to="/sobre-mim">Sobre mim</Link></li>
           </ul>
