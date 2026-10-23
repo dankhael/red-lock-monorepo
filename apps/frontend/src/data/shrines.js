@@ -54,11 +54,11 @@ export const shrineDetails = {
   'nagi-seishiro': {
     id: 'nagi-seishiro',
     name: 'Nagi Seishiro',
-    color: '#ffffffff',
-    secondaryColor: '#000000ff',
-    bgColor: '#57717e8c',
-    textColor: '#1a1a2e',
-    accentColor: '#000000ff',
+    color: '#ffffff',
+    secondaryColor: '#000000',
+    bgColor: '#1f2a31',
+    textColor: '#e8eef1',
+    accentColor: '#ffffff',
     bannerImage: 'https://i.imgur.com/jMMbOQP.png',
     tagline: 'This curiosity of mine can\'t be stopped.',
     tabs: {

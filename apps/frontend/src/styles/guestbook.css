@@ -5,8 +5,8 @@
 }
 
 .guestbook-page h1 {
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 2rem;
+  font-family: var(--font-head);
+  font-size: 2.5rem;
   margin-bottom: 0.5rem;
 }
 
@@ -76,23 +76,29 @@
 }
 
 .guestbook-btn {
-  background: #e093a4;
-  color: #fff;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 4px;
+  min-height: 44px;
+  padding: 0 1.2rem;
+  font-family: var(--font-head);
   font-size: 1rem;
+  color: var(--ink);
+  background: var(--pink-accent);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .guestbook-btn:hover {
-  background: #c97a8b;
+  transform: translate(-1px, -1px);
+  box-shadow: var(--shadow);
 }
 
 .guestbook-btn:disabled {
-  background: #ccc;
+  background: #e6dde0;
+  color: var(--text-muted);
   cursor: not-allowed;
+  transform: none;
 }
 
 /* Success */

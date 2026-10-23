@@ -8,34 +8,29 @@ function PostCard({ post }) {
   
   return (
     <article className="post-card">
-      <div className="post-image">
-        <a href={`/blog/${slug}`}>
-          <img src={image} alt={title}/>
-        </a>
-        
-      </div>
+      <Link to={`/blog/${slug}`} className="post-card__image" tabIndex={-1} aria-hidden="true">
+        <img src={image} alt="" loading="lazy" />
+      </Link>
       
-      <div className="post-content">
-        <div>
+      <div className="post-card__content">
+        <div className="post-card__meta">
           <CategoryBadge category={category} />
-          
-          <h2 className="post-title">
-            <Link to={`/blog/${slug}`}>{title}</Link>
-          </h2>
-          
-          <div className="post-meta">
-            <time>{formatDate(publishedOn)}</time>
-          </div>
-          
-          <p className="post-summary">{summary}</p>
+          {publishedOn && <time dateTime={publishedOn}>{formatDate(publishedOn)}</time>}
         </div>
         
+        <h3 className="post-card__title">
+          <Link to={`/blog/${slug}`}>{title}</Link>
+        </h3>
+        
+        <p className="post-card__summary">{summary}</p>
+        
         <Link to={`/blog/${slug}`} className="read-more">
-          Leia Mais →
+          Leia mais
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
         </Link>
       </div>
     </article>
   );
 }
 
-export default PostCard; 
+export default PostCard;

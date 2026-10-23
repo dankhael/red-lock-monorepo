@@ -8,6 +8,7 @@
   "scripts": {
     "dev:backend": "npm run develop --workspace=apps/backend",
     "dev:frontend": "npm run start --workspace=apps/frontend",
+    "dev:mock": "npm run start:mock --workspace=apps/frontend",
     "install:all": "npm install"
   },
   "keywords": [],

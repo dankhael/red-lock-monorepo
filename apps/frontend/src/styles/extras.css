@@ -9,8 +9,8 @@
 }
 
 .extras-page h1 {
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 2rem;
+  font-family: var(--font-head);
+  font-size: 2.5rem;
   color: #333;
   margin-bottom: 0.5rem;
 }
@@ -66,8 +66,8 @@
 }
 
 .extras-card h2 {
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 1rem;
+  font-family: var(--font-head);
+  font-size: 1.15rem;
   margin: 0 0 0.8rem 0;
 }
 

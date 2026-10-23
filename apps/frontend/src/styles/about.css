@@ -5,13 +5,13 @@
   }
 
 .about-page h1 {
-    font-family: 'Press Start 2P', sans-serif;
-    font-size: 2rem;
+    font-family: var(--font-head);
+    font-size: 2.5rem;
 }
 
 .about-page h2 {
-    font-family: 'Press Start 2P', sans-serif;
-    font-size: 1.5rem;
+    font-family: var(--font-head);
+    font-size: 1.75rem;
 }
   
   .about-layout {
@@ -45,7 +45,12 @@
   .social-media a {
     display: inline-block;
     margin-right: 10px;
-    color: #e093a4;
+    color: var(--pink-deep);
+  }
+
+  .about-text p {
+    font-size: 1.0625rem;
+    line-height: 1.7;
   }
   
   .social-media a:hover {

@@ -3,8 +3,8 @@
   }
 
 .blog-page h1 {
-    font-family: 'Press Start 2P', sans-serif;
-    font-size: 2rem;
+    font-family: var(--font-head);
+    font-size: 2.5rem;
 }
   
   .blog-content {
@@ -19,3 +19,49 @@
   .sidebar-container {
     flex: 1; /* Sidebar takes up less space */
   }
+.filter-info {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  padding: 0.4rem 0.9rem;
+  background: var(--paper);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-body);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.pagination a {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--paper);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.pagination a.active {
+  background: var(--pink-accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.blog-content {
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.blog-content .main-content {
+  flex: 999 1 560px;
+  min-width: 0;
+  padding: 0;
+}

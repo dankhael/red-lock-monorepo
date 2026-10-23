@@ -1,68 +1,77 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import SearchBar from './SearchBar';
 
-import '../../styles/header.css'; 
+import '../../styles/header.css';
 
 function Header() {
   return (
-    <div className="header-container">
-      {/* Top Banner */}
-      <div className="top-banner">
-        <img 
-          src="/images/nagi_silhouette.png" 
-          alt="Nagi Seishiro" 
-          className="banner-character left-character nagi-character"
-        />
+    <header className="header-container">
+      <div className="header-inner">
+        {/* Top Banner */}
+        <div className="top-banner">
+          <div className="banner-group">
+            <img
+              src="/images/nagi_silhouette.png"
+              alt=""
+              className="banner-character nagi-character"
+            />
+            <img
+              src="/images/L_silhouette.png"
+              alt=""
+              className="banner-character l-character"
+            />
+          </div>
 
-        <img 
-          src="/images/L_silhouette.png" 
-          alt="L" 
-          className="banner-character left-character l-character"
-        />
+          <Link to="/" className="site-logo" aria-label="Red Box — página inicial">
+            <span className="logo-word">RED</span>
+            <img src="/images/redBoxLogo.png" alt="" className="logo-image" />
+            <span className="logo-word">BOX</span>
+          </Link>
 
-        <div className="site-logo">
-          <h1>RED</h1>
-          <img src="/images/redBoxLogo.png" alt="Red Box Logo" className="logo-image" />
-          <h1>BOX</h1>
+          <div className="banner-group">
+            <img
+              src="/images/kaito_silhouette.png"
+              alt=""
+              className="banner-character kaito-character"
+            />
+            <img
+              src="/images/wright_silhouette.png"
+              alt=""
+              className="banner-character wright-character"
+            />
+          </div>
         </div>
-        
-        <img 
-          src="/images/kaito_silhouette.png" 
-          alt="Daimon Kaito" 
-          className="banner-character right-character kaito-character"
-        />
 
-        <img 
-          src="/images/wright_silhouette.png" 
-          alt="Phoenix Wright" 
-          className="banner-character right-character wright-character"
-        />
-      </div>
+        {/* Navigation and Search */}
+        <div className="nav-search-container">
+          <nav className="navigation" aria-label="Principal">
+            <ul>
+              <li><NavLink to="/" end>Home</NavLink></li>
+              <li><NavLink to="/blog">Blog</NavLink></li>
+              <li><NavLink to="/games">Games</NavLink></li>
+              <li className="nav-dropdown">
+                <NavLink to="/extras">
+                  Extras
+                  <svg className="nav-caret" aria-hidden="true" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M2 4l4 4 4-4" />
+                  </svg>
+                </NavLink>
+                <ul className="nav-dropdown-menu">
+                  <li><NavLink to="/recomendacoes">Recomendações</NavLink></li>
+                  <li><NavLink to="/shrines">Shrines</NavLink></li>
+                </ul>
+              </li>
+              <li><NavLink to="/guestbook">Guestbook</NavLink></li>
+              <li><NavLink to="/sobre-mim">Sobre mim</NavLink></li>
+            </ul>
+          </nav>
 
-      {/* Navigation and Search */}
-      <div className="nav-search-container">
-        <nav className="navigation">
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/blog">Blog</Link></li>
-            <li><Link to="/games">Games</Link></li>
-            <li className="nav-dropdown">
-              <Link to="/extras">Extras</Link>
-              <ul className="nav-dropdown-menu">
-                <li><Link to="/recomendacoes">Recomendações</Link></li>
-                <li><Link to="/shrines">Shrines</Link></li>
-              </ul>
-            </li>
-            <li><Link to="/guestbook">Guestbook</Link></li>
-            <li><Link to="/sobre-mim">Sobre mim</Link></li>
-          </ul>
-        </nav>
-        
-        <SearchBar />
+          <SearchBar />
+        </div>
       </div>
-    </div>
+    </header>
   );
 }
 
-export default Header; 
+export default Header;
