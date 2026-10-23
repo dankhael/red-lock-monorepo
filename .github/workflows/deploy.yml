@@ -3,15 +3,26 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
+# Nunca cancela um deploy no meio; o próximo espera na fila
 concurrency:
-  group: deploy
-  cancel-in-progress: true
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  FRONTEND_DIR: /var/www/red-box
+  BACKEND_DIR: /root/RBox/red-lock
+  RELEASES_DIR: /root/RBox/releases
 
 jobs:
-  test:
+  build:
+    # Só a master vai pra produção (inclusive em disparo manual)
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     environment: env.production
 
@@ -19,10 +30,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 22
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Install dependencies
@@ -30,50 +41,6 @@ jobs:
 
       - name: Run frontend tests
         run: npm test --workspace=apps/frontend -- --watchAll=false --ci
-
-      - name: Build frontend (validation only)
-        run: npm run build --workspace=apps/frontend
-        env:
-          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
-          REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
-          REACT_APP_READER_TOKEN: ${{ secrets.REACT_APP_READER_TOKEN }}
-          REACT_APP_USE_MOCK_DATA: false
-          REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.REACT_APP_GA_MEASUREMENT_ID }}
-          REACT_APP_DISQUS_SHORTNAME: ${{ secrets.REACT_APP_DISQUS_SHORTNAME }}
-
-      - name: Build backend (validation only)
-        run: npm run build --workspace=apps/backend
-        env:
-          APP_KEYS: ${{ secrets.STRAPI_APP_KEYS }}
-          API_TOKEN_SALT: ${{ secrets.STRAPI_API_TOKEN_SALT }}
-          ADMIN_JWT_SECRET: ${{ secrets.STRAPI_ADMIN_JWT_SECRET }}
-          TRANSFER_TOKEN_SALT: ${{ secrets.STRAPI_TRANSFER_TOKEN_SALT }}
-          JWT_SECRET: ${{ secrets.STRAPI_JWT_SECRET }}
-          DATABASE_CLIENT: postgres
-          DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
-          DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
-          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          DATABASE_SSL: true
-
-  deploy-frontend:
-    runs-on: ubuntu-latest
-    needs: test
-    environment: env.production
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
 
       - name: Build frontend
         run: npm run build --workspace=apps/frontend
@@ -85,111 +52,68 @@ jobs:
           REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.REACT_APP_GA_MEASUREMENT_ID }}
           REACT_APP_DISQUS_SHORTNAME: ${{ secrets.REACT_APP_DISQUS_SHORTNAME }}
 
-      - name: Remove old frontend files
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: rm -rf /var/www/red-box/*
-
-      - name: Deploy frontend to VPS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          source: apps/frontend/build/*
-          target: /var/www/red-box/
-          strip_components: 3
-
-      - name: Set file permissions
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            chown -R www-data:www-data /var/www/red-box
-            chmod -R 755 /var/www/red-box
-
-  deploy-backend:
-    runs-on: ubuntu-latest
-    needs: [test, deploy-frontend]
-    environment: env.production
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
+      # O build do admin não conecta no banco nem usa os segredos reais:
+      # os valores reais ficam só no .env.production do servidor.
       - name: Build backend
         run: npm run build --workspace=apps/backend
         env:
-          APP_KEYS: ${{ secrets.STRAPI_APP_KEYS }}
-          API_TOKEN_SALT: ${{ secrets.STRAPI_API_TOKEN_SALT }}
-          ADMIN_JWT_SECRET: ${{ secrets.STRAPI_ADMIN_JWT_SECRET }}
-          TRANSFER_TOKEN_SALT: ${{ secrets.STRAPI_TRANSFER_TOKEN_SALT }}
-          JWT_SECRET: ${{ secrets.STRAPI_JWT_SECRET }}
-          DATABASE_CLIENT: postgres
-          DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
-          DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
-          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          DATABASE_SSL: true
+          APP_KEYS: build-key-1,build-key-2
+          API_TOKEN_SALT: build-salt
+          ADMIN_JWT_SECRET: build-jwt
+          TRANSFER_TOKEN_SALT: build-transfer
+          JWT_SECRET: build-secret
 
-      - name: Clean up Strapi temp files
-        run: rm -f apps/backend/.strapi-updater.json
+      - name: Upload frontend build
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend
+          path: apps/frontend/build
+          retention-days: 7
 
-      - name: Deploy backend to VPS
-        uses: appleboy/scp-action@v0.1.7
+      - name: Upload backend build
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend
+          path: |
+            apps/backend
+            !apps/backend/node_modules
+            !apps/backend/.tmp
+            !apps/backend/.cache
+            !apps/backend/.env*
+            !apps/backend/public/uploads
+            !apps/backend/*.bundle
+          retention-days: 7
+
+  # Backend primeiro: o frontend novo pode depender de mudanças na API
+  deploy-backend:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: env.production
+
+    steps:
+      - name: Download backend build
+        uses: actions/download-artifact@v4
+        with:
+          name: backend
+          path: backend
+
+      - name: Upload release to VPS
+        uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          source: apps/backend/*
-          target: /root/RBox/red-lock/
-          strip_components: 2
-          overwrite: true
+          source: backend/*
+          target: ${{ env.RELEASES_DIR }}/backend-${{ github.run_id }}
+          strip_components: 1
           timeout: 180s
 
-      - name: Create .env.production on VPS
+      - name: Write .env.production, install and restart Strapi
         uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          envs: STRAPI_APP_KEYS,STRAPI_API_TOKEN_SALT,STRAPI_ADMIN_JWT_SECRET,STRAPI_TRANSFER_TOKEN_SALT,STRAPI_JWT_SECRET,DATABASE_HOST,DATABASE_PORT,DATABASE_NAME,DATABASE_USERNAME,DATABASE_PASSWORD,LASTFM_API_KEY,LASTFM_USER
-          script: |
-            cd /root/RBox/red-lock
-            echo "HOST=127.0.0.1" > .env.production
-            echo "PORT=1337" >> .env.production
-            echo "APP_KEYS=${STRAPI_APP_KEYS}" >> .env.production
-            echo "API_TOKEN_SALT=${STRAPI_API_TOKEN_SALT}" >> .env.production
-            echo "ADMIN_JWT_SECRET=${STRAPI_ADMIN_JWT_SECRET}" >> .env.production
-            echo "TRANSFER_TOKEN_SALT=${STRAPI_TRANSFER_TOKEN_SALT}" >> .env.production
-            echo "JWT_SECRET=${STRAPI_JWT_SECRET}" >> .env.production
-            echo "DATABASE_CLIENT=postgres" >> .env.production
-            echo "DATABASE_HOST=${DATABASE_HOST}" >> .env.production
-            echo "DATABASE_PORT=${DATABASE_PORT}" >> .env.production
-            echo "DATABASE_NAME=${DATABASE_NAME}" >> .env.production
-            echo "DATABASE_USERNAME=${DATABASE_USERNAME}" >> .env.production
-            echo "DATABASE_PASSWORD=${DATABASE_PASSWORD}" >> .env.production
-            echo "DATABASE_SSL=true" >> .env.production
-            echo "DATABASE_SSL_REJECT_UNAUTHORIZED=false" >> .env.production
-            echo "SITE_URL=https://dankredbox.com" >> .env.production
-            echo "LASTFM_API_KEY=${LASTFM_API_KEY}" >> .env.production
-            echo "LASTFM_USER=${LASTFM_USER}" >> .env.production
         env:
+          RUN_ID: ${{ github.run_id }}
+          BACKEND_DIR: ${{ env.BACKEND_DIR }}
+          RELEASES_DIR: ${{ env.RELEASES_DIR }}
           STRAPI_APP_KEYS: ${{ secrets.STRAPI_APP_KEYS }}
           STRAPI_API_TOKEN_SALT: ${{ secrets.STRAPI_API_TOKEN_SALT }}
           STRAPI_ADMIN_JWT_SECRET: ${{ secrets.STRAPI_ADMIN_JWT_SECRET }}
@@ -202,40 +126,132 @@ jobs:
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
           LASTFM_USER: ${{ secrets.LASTFM_USER }}
-
-      - name: Install dependencies and restart Strapi
-        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           command_timeout: 10m
+          envs: RUN_ID,BACKEND_DIR,RELEASES_DIR,STRAPI_APP_KEYS,STRAPI_API_TOKEN_SALT,STRAPI_ADMIN_JWT_SECRET,STRAPI_TRANSFER_TOKEN_SALT,STRAPI_JWT_SECRET,DATABASE_HOST,DATABASE_PORT,DATABASE_NAME,DATABASE_USERNAME,DATABASE_PASSWORD,LASTFM_API_KEY,LASTFM_USER
           script: |
+            # nvm.sh não é compatível com `set -u`, então carrega antes
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            cd /root/RBox/red-lock
-            npm install --omit=dev
-            pm2 restart red-lock || pm2 start npm --name red-lock -- start
+            set -euo pipefail
 
-      - name: Verify deployment
+            RELEASE="$RELEASES_DIR/backend-$RUN_ID"
+            mkdir -p "$BACKEND_DIR"
+
+            # dist é recriado do zero pra não sobrar código de content-types removidos.
+            # node_modules, public/uploads e .env.production do servidor são preservados.
+            rm -rf "$BACKEND_DIR/dist"
+            cp -a "$RELEASE/." "$BACKEND_DIR/"
+
+            ENV_FILE="$BACKEND_DIR/.env.production"
+            umask 077
+            {
+              printf 'HOST=127.0.0.1\nPORT=1337\n'
+              printf 'APP_KEYS=%s\n' "$STRAPI_APP_KEYS"
+              printf 'API_TOKEN_SALT=%s\n' "$STRAPI_API_TOKEN_SALT"
+              printf 'ADMIN_JWT_SECRET=%s\n' "$STRAPI_ADMIN_JWT_SECRET"
+              printf 'TRANSFER_TOKEN_SALT=%s\n' "$STRAPI_TRANSFER_TOKEN_SALT"
+              printf 'JWT_SECRET=%s\n' "$STRAPI_JWT_SECRET"
+              printf 'DATABASE_CLIENT=postgres\n'
+              printf 'DATABASE_HOST=%s\n' "$DATABASE_HOST"
+              printf 'DATABASE_PORT=%s\n' "$DATABASE_PORT"
+              printf 'DATABASE_NAME=%s\n' "$DATABASE_NAME"
+              printf 'DATABASE_USERNAME=%s\n' "$DATABASE_USERNAME"
+              printf 'DATABASE_PASSWORD=%s\n' "$DATABASE_PASSWORD"
+              printf 'DATABASE_SSL=true\n'
+              printf 'DATABASE_SSL_REJECT_UNAUTHORIZED=false\n'
+              printf 'SITE_URL=https://dankredbox.com\n'
+              printf 'LASTFM_API_KEY=%s\n' "$LASTFM_API_KEY"
+              printf 'LASTFM_USER=%s\n' "$LASTFM_USER"
+            } > "$ENV_FILE.tmp"
+            mv "$ENV_FILE.tmp" "$ENV_FILE"
+
+            cd "$BACKEND_DIR"
+            npm install --omit=dev --no-audit --no-fund
+            pm2 restart red-lock --update-env || pm2 start npm --name red-lock -- start
+            pm2 save
+
+            # Mantém só as 3 últimas releases (permite rollback manual)
+            ls -dt "$RELEASES_DIR"/backend-* | tail -n +4 | xargs -r rm -rf
+
+      - name: Health check
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            echo "=== .env.production keys (values redacted) ==="
-            cd /root/RBox/red-lock
-            awk -F= '{print $1"="substr($2,1,4)"***"}' .env.production
-            echo ""
-            echo "=== pm2 status ==="
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            for i in $(seq 1 30); do
+              code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:1337/_health || true)
+              if [ "$code" = "204" ] || [ "$code" = "200" ]; then
+                echo "Strapi saudável (HTTP $code) após ${i}x2s"
+                exit 0
+              fi
+              sleep 2
+            done
+            echo "Strapi não respondeu em 60s (último HTTP: $code)"
             pm2 list
-            echo ""
-            echo "=== Strapi API health check ==="
-            sleep 5
-            curl -s -o /dev/null -w "HTTP %{http_code}" http://127.0.0.1:1337/api/posts || echo "API unreachable"
-            echo ""
-            echo "=== Last 20 lines of pm2 logs ==="
-            pm2 logs red-lock --nostream --lines 20
+            pm2 logs red-lock --nostream --lines 40
+            exit 1
+
+  deploy-frontend:
+    needs: [build, deploy-backend]
+    runs-on: ubuntu-latest
+    environment: env.production
+
+    steps:
+      - name: Download frontend build
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend
+          path: frontend
+
+      # Sobe numa pasta nova e troca no final: o site não fica vazio durante o upload
+      - name: Upload release to VPS
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          source: frontend/*
+          target: ${{ env.FRONTEND_DIR }}-release-${{ github.run_id }}
+          strip_components: 1
+          timeout: 120s
+
+      - name: Swap release
+        uses: appleboy/ssh-action@v1
+        env:
+          RUN_ID: ${{ github.run_id }}
+          FRONTEND_DIR: ${{ env.FRONTEND_DIR }}
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          envs: RUN_ID,FRONTEND_DIR
+          script: |
+            set -euo pipefail
+            NEW="$FRONTEND_DIR-release-$RUN_ID"
+            test -f "$NEW/index.html"
+
+            chown -R www-data:www-data "$NEW"
+            find "$NEW" -type d -exec chmod 755 {} +
+            find "$NEW" -type f -exec chmod 644 {} +
+
+            # A versão anterior fica em $FRONTEND_DIR-previous pra rollback:
+            #   mv /var/www/red-box /var/www/red-box-broken && mv /var/www/red-box-previous /var/www/red-box
+            rm -rf "$FRONTEND_DIR-previous"
+            if [ -d "$FRONTEND_DIR" ]; then mv "$FRONTEND_DIR" "$FRONTEND_DIR-previous"; fi
+            mv "$NEW" "$FRONTEND_DIR"
+
+      - name: Smoke test
+        run: |
+          for url in https://dankredbox.com/ https://dankredbox.com/blog; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "$url")
+            echo "$url -> HTTP $code"
+            [ "$code" = "200" ] || exit 1
+          done
