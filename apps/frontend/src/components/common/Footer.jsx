@@ -6,7 +6,7 @@ function Footer() {
   const [quote, setQuote] = useState('');
   const [author, setAuthor] = useState('');
 
-  useEffect(() => { 
+  useEffect(() => {
     const loadQuote = async () => {
       try {
         const response = await getQuote();
@@ -21,23 +21,27 @@ function Footer() {
 
   return (
     <footer className="footer">
-      <div className="footer-content">
-        <div className="footer-section">
-        </div>
-      </div>
-      
       <div className="footer-bottom">
-        <h2>Frase em não tanto destaque: "{quote}", {author} </h2>
-        <p>
-          &copy; {new Date().getFullYear()} Red Box. All rights reserved.
-          {' | '}
-          <a href="https://api.dankredbox.com/api/rss" target="_blank" rel="noopener noreferrer" className="rss-link">
-            RSS Feed
-          </a>
-        </p>
+        <div className="footer-card">
+          {quote && (
+            <>
+              <span className="footer-label">Frase em não tanto destaque</span>
+              <blockquote className="footer-quote">
+                “{quote}” {author && <cite>— {author}</cite>}
+              </blockquote>
+            </>
+          )}
+          <p className="footer-meta">
+            &copy; {new Date().getFullYear()} Red Box
+            {' · '}
+            <a href="https://api.dankredbox.com/api/rss" target="_blank" rel="noopener noreferrer" className="rss-link">
+              RSS Feed
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   );
 }
 
-export default Footer; 
+export default Footer;

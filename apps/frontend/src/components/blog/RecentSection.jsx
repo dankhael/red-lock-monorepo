@@ -28,19 +28,18 @@ function RecentSection() {
     }, []);
 
     if (isLoading) {
-        return <div className="loading">Loading recent posts...</div>;
+        return <div className="loading">Carregando posts…</div>;
     }
 
     return (
-        <section className="recent-section">
-            <h2>Posts recentes</h2>
+        <section className="recent-section" aria-labelledby="recent-heading">
+            <h2 id="recent-heading">Posts recentes</h2>
             <div className="post-list">
                 {posts.slice(0, 5).map((post) => (
-                    <Link to={`/blog/${post.slug}`} key={post.id}>
-                        <PostCard post={post} />
-                    </Link>
+                    <PostCard post={post} key={post.id} />
                 ))}
             </div>
+            <Link to="/blog" className="see-all-link">Ver todos os posts →</Link>
         </section>
     );
 }

@@ -166,20 +166,22 @@ const Minesweeper = ({ rows = 10, cols = 10, mines = 10 }) => {
           row.map((_, colIndex) => renderCell(rowIndex, colIndex))
         )}
       </div>
-      <button onClick={initializeBoard} className="reset-button">
-        New Game
+      <button type="button" onClick={initializeBoard} className="rb-btn reset-button">
+        Novo jogo
       </button>
       <style jsx>{`
         .minesweeper {
           display: flex;
           flex-direction: column;
           align-items: center;
-          font-family: Arial, sans-serif;
+          font-family: var(--font-body);
         }
         .board {
           background-color: #ddd;
           padding: 10px;
-          border-radius: 5px;
+          border: 2px solid var(--ink);
+          border-radius: 10px;
+          box-shadow: var(--shadow);
         }
         .cell {
           width: 40px;
@@ -209,9 +211,7 @@ const Minesweeper = ({ rows = 10, cols = 10, mines = 10 }) => {
           font-weight: bold;
         }
         .reset-button {
-          margin-top: 10px;
-          padding: 5px 10px;
-          font-size: 16px;
+          margin-top: 16px;
         }
       `}</style>
     </div>

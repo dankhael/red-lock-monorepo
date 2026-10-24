@@ -37,51 +37,58 @@ function FeaturedSection() {
   };
 
   if (isLoading) {
-    return <div className="loading">Loading featured posts...</div>;
+    return <div className="loading">Carregando destaques…</div>;
+  }
+
+  if (featuredPosts.length === 0) {
+    return null;
   }
   
   return (
-    <section className="featured-section">
-      <h2>Em destaque</h2>
-      <div className="featured-container">
-        <button 
-          className="scroll-button scroll-left" 
-          onClick={handleScrollLeft}
-          aria-label="Scroll left"
-        >
-          ←
-        </button>
-        
-        <div className="featured-posts" ref={scrollContainerRef}>
-          {featuredPosts.map(post => (
-            <Link 
-              to={`/blog/${post.slug}`} 
-              key={post.id} 
-              className="featured-post-link"
-            >
-              <div className="featured-post-card">
-                <div className="post-image">
-                  <img src={post.image} alt={post.title} />
-                </div>
-                <div className="post-info">
-                  <h3>{post.title}</h3>
-                  <p>{post.summary}</p>
-                </div>
-              </div>
-            </Link>
-          ))}
+    <section className="featured-section" aria-labelledby="featured-heading">
+      <div className="section-heading-row">
+        <h2 id="featured-heading">Em destaque</h2>
+        <div className="scroll-buttons">
+          <button 
+            type="button"
+            className="scroll-button" 
+            onClick={handleScrollLeft}
+            aria-label="Destaques anteriores"
+          >
+            <svg aria-hidden="true" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M11 3L5 9l6 6" /></svg>
+          </button>
+          <button 
+            type="button"
+            className="scroll-button" 
+            onClick={handleScrollRight}
+            aria-label="Próximos destaques"
+          >
+            <svg aria-hidden="true" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M7 3l6 6-6 6" /></svg>
+          </button>
         </div>
+      </div>
 
-        <button 
-          className="scroll-button scroll-right" 
-          onClick={handleScrollRight}
-          aria-label="Scroll right"
-        >
-          →
-        </button>
+      <div className="featured-posts" ref={scrollContainerRef}>
+        {featuredPosts.map(post => (
+          <Link 
+            to={`/blog/${post.slug}`} 
+            key={post.id} 
+            className="featured-post-link"
+          >
+            <article className="featured-post-card">
+              <div className="featured-post-image">
+                <img src={post.image} alt="" loading="lazy" />
+              </div>
+              <div className="post-info">
+                <h3>{post.title}</h3>
+                <p>{post.summary}</p>
+              </div>
+            </article>
+          </Link>
+        ))}
       </div>
     </section>
   );
 }
 
-export default FeaturedSection; 
+export default FeaturedSection;

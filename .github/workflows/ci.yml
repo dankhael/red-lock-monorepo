@@ -3,10 +3,17 @@ name: CI
 on:
   push:
     branches-ignore:
-      - main
+      - master # master é validada pelo workflow de Deploy
   pull_request:
     branches:
-      - main
+      - master
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   test-and-build:
@@ -16,10 +23,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 22
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Install dependencies
@@ -31,7 +38,7 @@ jobs:
       - name: Build frontend
         run: npm run build --workspace=apps/frontend
         env:
-          REACT_APP_API_URL: http://localhost:1337
+          REACT_APP_API_URL: http://localhost:1337/api
           REACT_APP_USE_MOCK_DATA: true
 
       - name: Build backend

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="600" viewBox="0 0 480 600">
+<defs><pattern id="p" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="14" height="28" fill="#1b0f17" opacity="0.18"/></pattern></defs>
+<rect width="480" height="600" fill="#9ad1d4"/><rect width="480" height="600" fill="url(#p)"/>
+<g font-family="'Pixelify Sans', 'Courier New', monospace" text-anchor="middle">
+<text x="240.0" y="300.0" font-size="53" font-weight="700" fill="#1b0f17" stroke="#ffffff" stroke-width="6" paint-order="stroke">Imagem</text>
+<text x="240.0" y="353.0" font-size="26" fill="#1b0f17" stroke="#ffffff" stroke-width="4" paint-order="stroke">em destaque</text>
+</g></svg>

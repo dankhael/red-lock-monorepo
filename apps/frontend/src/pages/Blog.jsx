@@ -52,18 +52,18 @@ function Blog() {
       
       {category && (
         <div className="filter-info">
-          Showing posts in category: <strong>{category}</strong>
+          Categoria: <strong>{category}</strong>
         </div>
       )}
       
       {search && (
         <div className="filter-info">
-          Search results for: <strong>{search}</strong>
+          Resultados para: <strong>{search}</strong>
         </div>
       )}
       
       {isLoading ? (
-        <div className="loading">Loading posts...</div>
+        <div className="loading">Carregando posts…</div>
       ) : (
         <div className="blog-content">
           <div className="main-content">

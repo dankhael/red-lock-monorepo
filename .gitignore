@@ -6,3 +6,7 @@ build
 .tmp
 .cache
 .strapi-updater.json
+
+# Tokens e artefatos locais
+*token*.txt
+*.bundle

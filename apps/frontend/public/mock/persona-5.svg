@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+<defs><pattern id="p" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="14" height="28" fill="#1b0f17" opacity="0.18"/></pattern></defs>
+<rect width="800" height="450" fill="#e0283f"/><rect width="800" height="450" fill="url(#p)"/>
+<g font-family="'Pixelify Sans', 'Courier New', monospace" text-anchor="middle">
+<text x="400.0" y="225.0" font-size="50" font-weight="700" fill="#1b0f17" stroke="#ffffff" stroke-width="6" paint-order="stroke">Persona 5</text>
+<text x="400.0" y="275.0" font-size="25" fill="#1b0f17" stroke="#ffffff" stroke-width="4" paint-order="stroke">capa mock</text>
+</g></svg>

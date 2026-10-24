@@ -1,5 +1,12 @@
 import { api } from './api';
-import { mockPosts } from '../utils/mockData';
+import {
+  mockPosts,
+  mockQuote,
+  mockFeaturedImage,
+  mockActivities,
+  mockLastFmTracks,
+  mockAbout,
+} from '../utils/mockData';
 
 // Flag to determine if we should use mock data
 const USE_MOCK_DATA = process.env.REACT_APP_USE_MOCK_DATA === 'true';
@@ -56,7 +63,7 @@ export const getPosts = async ({ category, search, page = 1, limit = 10 }) => {
     summary: post.excerpt || 'No summary available.',
     image: post.coverImage
       ? BASE_URL + post.coverImage.formats.thumbnail.url
-      : 'https://via.placeholder.com/800x400?text=No+Image',
+      : '/images/no_image_found.png',
     publishedOn: post.publishedAt || 'Unknown Date',
     category: post.category || 'Uncategorized',
   }));
@@ -79,7 +86,7 @@ export const getPostBySlug = async (slug) => {
     return null;
   }
 
-  const formats = response.data.data[0].coverImage.formats;
+  const formats = response.data.data[0].coverImage?.formats || {};
   const availableFormats = ['large', 'medium', 'small', 'thumbnail'];
   let selectedFormat = null;
 
@@ -96,14 +103,8 @@ export const getPostBySlug = async (slug) => {
 };
 
 export const getFeaturedPosts = async () => {
-  let featuredPosts = [];
   if (USE_MOCK_DATA) {
-    for (let i = 0; i < mockPosts.length; i++) {
-      if (mockPosts[i].featured) {
-        featuredPosts.push(mockPosts[i]);
-      }
-    }
-    return featuredPosts;
+    return mockPosts.filter((post) => post.featured);
   }
   
   const response = await api.get('/posts?filters[featured]=true&populate=*');
@@ -123,14 +124,10 @@ export const getFeaturedPosts = async () => {
 };
 
 export const getRecentPosts = async () => {
-  let recentPosts = [];
   if (USE_MOCK_DATA) {
-    for (let i = 0; i < mockPosts.length; i++) {
-      if (mockPosts[i].featured) {
-        recentPosts.push(mockPosts[i]);
-      }
-    }
-    return recentPosts;
+    return [...mockPosts]
+      .sort((a, b) => new Date(b.publishedOn) - new Date(a.publishedOn))
+      .slice(0, 5);
   }
 
   const response = await api.get('/posts?pagination[limit]=5&sort=publishedAt&populate=*');
@@ -149,40 +146,9 @@ export const getRecentPosts = async () => {
   return posts;
 };
 
-// For development/testing, you can use this mock data
-export const getMockPosts = () => {
-  return {
-    posts: [
-      {
-        id: 1,
-        title: 'Getting Started with React',
-        slug: 'getting-started-with-react',
-        summary: 'Learn the basics of React and how to set up your first project.',
-        content: '<p>This is the full content of the post...</p>',
-        image: 'https://via.placeholder.com/800x400?text=React',
-        publishedAt: '2023-06-15T10:00:00Z',
-        category: 'React',
-      },
-      {
-        id: 2,
-        title: 'Advanced CSS Techniques',
-        slug: 'advanced-css-techniques',
-        summary: 'Explore advanced CSS techniques to create stunning web designs.',
-        content: '<p>This is the full content of the post...</p>',
-        image: 'https://via.placeholder.com/800x400?text=CSS',
-        publishedAt: '2023-06-10T10:00:00Z',
-        category: 'CSS',
-      },
-      // Add more mock posts as needed
-    ],
-    currentPage: 1,
-    totalPages: 1,
-  };
-}; 
-
 export const getQuote = async () => {
   if (USE_MOCK_DATA) {
-    return {quote: 'Sorte é o fracasso que falhou', author: 'Ornn'};
+    return mockQuote;
   }
   
   const response = await api.get('/quote');
@@ -194,10 +160,7 @@ export const getQuote = async () => {
 
 export const getFeaturedImage = async () => {
   if (USE_MOCK_DATA) {
-    return {
-      url: 'https://i.pinimg.com/736x/2d/3a/c4/2d3ac4b0516e7bb63cbf266fa2157069.jpg',
-      caption: 'Um bom lugar'
-    };
+    return mockFeaturedImage;
   }
 
   const response = await api.get('featured-image?populate=image');
@@ -221,9 +184,7 @@ export const getFeaturedImage = async () => {
 
 export const getActivities = async () => {
   if (USE_MOCK_DATA) {
-    return { game: 'League of Legends',
-       tv: 'The Mentalist' ,
-       book: 'The Hobbit' };
+    return mockActivities;
   }
   
   const response = await api.get('/activity');
@@ -232,26 +193,7 @@ export const getActivities = async () => {
 
 export const getLastFmTracks = async () => {
   if (USE_MOCK_DATA) {
-    return [
-      {
-        name: 'Pacato Cidadão',
-        artist: { '#text': 'Skank' },
-        image: [
-          { '#text': '' },
-          { '#text': 'https://lastfm.freetls.fastly.net/i/u/64s/2a96cbd8b46e442fc41c2b86b821562f.png' },
-        ],
-        album: { '#text': 'Calango' },
-      },
-      {
-        name: 'Paranoid Android',
-        artist: { '#text': 'Radiohead' },
-        image: [
-          { '#text': '' },
-          { '#text': 'https://lastfm.freetls.fastly.net/i/u/64s/2a96cbd8b46e442fc41c2b86b821562f.png' },
-        ],
-        album: { '#text': 'OK Computer' },
-      },
-    ];
+    return mockLastFmTracks;
   }
 
   const response = await api.get('/lastfm/recent-tracks');
@@ -260,17 +202,7 @@ export const getLastFmTracks = async () => {
 
 export const getAboutInfo = async () => {
   if (USE_MOCK_DATA) {
-    return {
-      description: `Oi, meu nome é Danilo, mas pode me chamar de dankhael, preguiçoso por natureza, mas curioso na mesma medida. Desenvolvo software entre um gole e outro de coca cola, viciado em jogos (qualquer um!), apreciador de mangás (principalmente sobre jogos!) e torcedor do tricolor de Recife. Fiz esse site pra exercitar minhas habilidades de programação, e também pra colocar um pézinho fora dessas bolhas de eco e derretidoras de cerebro que são as redes sociais, espero que curta o site e que eu não tenha o abandonado depois de 2 meses XD. Tentando ser melhor (apesar de não parecer -_-).`,
-      profileImage: 'https://www.animeclick.it/images/Anime_big/PhiBrainKaminoPuzzle2/PhiBrainKaminoPuzzle211.jpg',
-      socialMedia: {
-        twitter: 'https://twitter.com/danilokhael',
-        linkedin: 'https://www.linkedin.com/in/danilokhael/',
-        instagram: 'https://instagram.com/danilokhael',
-        discord: 'https://discordapp.com/users/240667893837201408',
-        email: 'danilokhael@gmail.com',
-      },
-    };
+    return mockAbout;
   }
 
   const response = await api.get('/about-me?populate=profileImage');

@@ -8,7 +8,7 @@ function Home() {
     <div className="home-page">
       <div className="body-background">
         <FeaturedSection />
-        <div class="body-content"> {/* Add this container */}
+        <div className="body-content">
           <RecentSection />
           <Sidebar />
         </div>

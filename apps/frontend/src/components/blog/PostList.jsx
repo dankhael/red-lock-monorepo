@@ -3,7 +3,7 @@ import PostCard from './PostCard';
 
 function PostList({ posts }) {
   if (!posts || posts.length === 0) {
-    return <div className="no-posts">No posts found</div>;
+    return <div className="no-posts">Nenhum post encontrado</div>;
   }
   
   return (

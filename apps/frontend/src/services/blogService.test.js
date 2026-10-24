@@ -35,9 +35,10 @@ describe('blogService (mock data mode)', () => {
 
   test('getPosts filters by category', async () => {
     const { getPosts } = require('./blogService');
-    const result = await getPosts({ category: 'Games', page: 1, limit: 10 });
+    const result = await getPosts({ category: 'Review', page: 1, limit: 10 });
+    expect(result.posts.length).toBeGreaterThan(0);
     result.posts.forEach((post) => {
-      expect(post.category).toBe('Games');
+      expect(post.category).toBe('Review');
     });
   });
 

@@ -9,8 +9,8 @@
 }
 
 .recommendations-page h1 {
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 2rem;
+  font-family: var(--font-head);
+  font-size: 2.5rem;
   color: #333;
   margin-bottom: 0.5rem;
 }
@@ -50,8 +50,8 @@
 }
 
 .rec-category-nav-btn:hover {
-  background: #e093a4;
-  color: #fff;
+  background: var(--pink-accent);
+  color: var(--ink);
   transform: translateY(-2px);
   box-shadow: 0 3px 8px rgba(224, 147, 164, 0.4);
 }
@@ -111,11 +111,19 @@
 }
 
 /* Título da categoria */
+/* "Etiqueta" sólida por cima do marquee, pra não colidir com o texto fantasma */
 .rec-category-title {
   position: relative;
-  font-family: 'Upheavel', 'Press Start 2P', sans-serif;
-  font-size: 2rem;
-  color: #333;
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--ink);
+  background: var(--paper);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  padding: 0.3rem 0.9rem;
   margin: 0;
   z-index: 1;
 }
@@ -123,7 +131,7 @@
 /* Divider rosa */
 .rec-divider {
   height: 3px;
-  background: linear-gradient(to right, #e093a4, transparent);
+  background: linear-gradient(to right, var(--pink), transparent);
   margin-bottom: 1.5rem;
   border-radius: 2px;
 }
@@ -183,8 +191,8 @@
 
 .rec-card-name {
   color: #fff;
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 0.65rem;
+  font-family: var(--font-head);
+  font-size: 0.95rem;
   margin: 0 0 0.4rem 0;
   line-height: 1.4;
 }

@@ -30,8 +30,8 @@
 }
 
 .shrine-not-found h1 {
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 1.5rem;
+  font-family: var(--font-head);
+  font-size: 1.75rem;
   margin-bottom: 1rem;
 }
 
@@ -78,8 +78,8 @@
 }
 
 .shrine-mini-title {
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 0.6rem;
+  font-family: var(--font-head);
+  font-size: 0.95rem;
   text-align: right;
   max-width: 60%;
   overflow: hidden;
@@ -116,8 +116,8 @@
 }
 
 .shrine-hero-title {
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 1.2rem;
+  font-family: var(--font-head);
+  font-size: 1.4rem;
   color: #fff;
   margin: 0 0 0.5rem 0;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
@@ -152,8 +152,8 @@
   border: none;
   background: transparent;
   cursor: pointer;
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 0.6rem;
+  font-family: var(--font-head);
+  font-size: 0.95rem;
   color: var(--shrine-text, #333);
   border-bottom: 3px solid transparent;
   transition: all 0.2s ease;
@@ -202,8 +202,8 @@
 }
 
 .shrine-infobox-title {
-  font-family: 'Press Start 2P', sans-serif;
-  font-size: 0.7rem;
+  font-family: var(--font-head);
+  font-size: 1.05rem;
   color: var(--shrine-primary, #4fc3f7);
   margin: 0 0 1rem 0;
   text-align: center;
@@ -218,7 +218,7 @@
   display: flex;
   flex-direction: column;
   padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
 }
 
 .shrine-infobox-item:last-child {
@@ -547,4 +547,8 @@
   .shrine-tab-btn {
     transition: none;
   }
+}
+
+.shrine-tab-btn:not(.active) {
+  opacity: 0.8;
 }
