@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 NPM workspaces monorepo for **Red Lock / Red Box** — a personal blog/gaming site. Strapi 5 CMS backend + Create React App frontend.
 
-- **Backend** (`apps/backend`): Strapi 5.11.2 (TypeScript), serves content API on port 1337
+- **Backend** (`apps/backend`): Strapi 5.58.0 (TypeScript), serves content API on port 1337
 - **Frontend** (`apps/frontend`): React 18 with CRA (JavaScript), consumes the Strapi API
 
 ## Node Version Requirement
@@ -48,6 +48,17 @@ All content types use Strapi's factory-generated controllers/routes/services in 
 - **Services**: `blogService.js` and `gameService.js` wrap API calls and support mock data fallback via `REACT_APP_USE_MOCK_DATA`
 - **Mock data** (`src/utils/mockData.js`): Full mock dataset for offline development without Strapi running
 - **Styles**: Separate CSS files per component/page in `src/styles/`, no CSS-in-JS
+
+### Upgrading Strapi
+
+All core `@strapi/*` packages must be on the **same version** — a mix (e.g. 5.58 + 5.59) breaks error handling (ForbiddenError becomes a 500). Versions are pinned with `overrides` in both `package.json` (root, used by the workspace/CI) and `apps/backend/package.json` (used by the standalone `apps/backend/package-lock.json` that the VPS installs with `npm ci`). To upgrade:
+
+1. Change the version in `@strapi/strapi`, `@strapi/plugin-users-permissions` and every `overrides` entry, in both files.
+2. `npm install --package-lock-only --ignore-scripts` at the root.
+3. Regenerate the backend lock in an isolated folder (copy `apps/backend/package.json` to an empty dir, run the same command, copy `package-lock.json` back).
+4. Check both locks have a single version of each `@strapi/*` package.
+
+The deploy runs a database backup before switching code, since Strapi migrates the schema on startup.
 
 ### Database Strategy
 

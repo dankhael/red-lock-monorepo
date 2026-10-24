@@ -140,6 +140,11 @@ jobs:
             RELEASE="$RELEASES_DIR/backend-$RUN_ID"
             mkdir -p "$BACKEND_DIR"
 
+            # O Strapi migra o banco ao subir: backup (local + Drive) antes de trocar o código
+            if [ -x /usr/local/bin/redbox-backup.sh ]; then
+              /usr/local/bin/redbox-backup.sh
+            fi
+
             # dist é recriado do zero pra não sobrar código de content-types removidos.
             # node_modules, public/uploads e .env.production do servidor são preservados.
             rm -rf "$BACKEND_DIR/dist"
@@ -169,7 +174,8 @@ jobs:
             mv "$ENV_FILE.tmp" "$ENV_FILE"
 
             cd "$BACKEND_DIR"
-            npm install --omit=dev --no-audit --no-fund
+            # Instala exatamente o apps/backend/package-lock.json (o mesmo que o CI usou)
+            npm ci --omit=dev --no-audit --no-fund
             pm2 restart red-lock --update-env || pm2 start npm --name red-lock -- start
             pm2 save
 
