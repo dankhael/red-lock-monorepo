@@ -47,7 +47,6 @@ jobs:
         env:
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
-          REACT_APP_READER_TOKEN: ${{ secrets.REACT_APP_READER_TOKEN }}
           REACT_APP_USE_MOCK_DATA: false
           REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.REACT_APP_GA_MEASUREMENT_ID }}
           REACT_APP_DISQUS_SHORTNAME: ${{ secrets.REACT_APP_DISQUS_SHORTNAME }}
@@ -248,9 +247,15 @@ jobs:
             if [ -d "$FRONTEND_DIR" ]; then mv "$FRONTEND_DIR" "$FRONTEND_DIR-previous"; fi
             mv "$NEW" "$FRONTEND_DIR"
 
+      # Site + API pública (sem token): se o conteúdo não carregar, o deploy falha
       - name: Smoke test
         run: |
-          for url in https://dankredbox.com/ https://dankredbox.com/blog; do
+          for url in \
+            https://dankredbox.com/ \
+            https://dankredbox.com/blog \
+            https://api.dankredbox.com/api/posts \
+            https://api.dankredbox.com/api/quote \
+            https://api.dankredbox.com/api/activity; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "$url")
             echo "$url -> HTTP $code"
             [ "$code" = "200" ] || exit 1

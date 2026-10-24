@@ -63,11 +63,6 @@ export const submitGuestbookEntry = async ({ authorName, message, website }) => 
 
   const response = await api.post('/guestbook-entries', {
     data: { authorName, message, website },
-  }, {
-    transformRequest: [(data, headers) => {
-      delete headers.Authorization;
-      return JSON.stringify(data);
-    }],
   });
   return response.data;
 };
