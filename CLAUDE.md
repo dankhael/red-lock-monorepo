@@ -69,7 +69,7 @@ The deploy runs a database backup before switching code, since Strapi migrates t
 
 Backend env files: `.env.development` (SQLite) and `.env.production` (PostgreSQL). Required keys: `APP_KEYS`, `API_TOKEN_SALT`, `ADMIN_JWT_SECRET`, `TRANSFER_TOKEN_SALT`, `JWT_SECRET`.
 
-Frontend `.env`: `REACT_APP_API_URL`, `REACT_APP_BASE_URL`, `REACT_APP_USE_MOCK_DATA`. The content API is read without a token: public read permissions are ensured by the backend `bootstrap` in `apps/backend/src/index.ts` (`PUBLIC_ACTIONS`). When adding a content type the frontend reads, add its actions there.
+Frontend `.env`: `REACT_APP_API_URL`, `REACT_APP_BASE_URL`, `REACT_APP_USE_MOCK_DATA`, optional `REACT_APP_UMAMI_URL` / `REACT_APP_UMAMI_WEBSITE_ID` (analytics; self-hosted Umami on the VPS in `/root/umami`, set in `deploy.yml`). The content API is read without a token: public read permissions are ensured by the backend `bootstrap` in `apps/backend/src/index.ts` (`PUBLIC_ACTIONS`). When adding a content type the frontend reads, add its actions there.
 
 ### Windows Compatibility
 
