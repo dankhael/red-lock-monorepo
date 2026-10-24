@@ -1,28 +1,22 @@
-const GA_MEASUREMENT_ID = process.env.REACT_APP_GA_MEASUREMENT_ID;
+// Analytics via Umami (self-hosted em stats.dankredbox.com).
+// Sem cookies e sem dados pessoais. O script rastreia sozinho as trocas de
+// rota do React (observa history.pushState), então não há page view manual.
+const UMAMI_URL = process.env.REACT_APP_UMAMI_URL;
+const UMAMI_WEBSITE_ID = process.env.REACT_APP_UMAMI_WEBSITE_ID;
 
 let initialized = false;
 
-export function initGA() {
-  if (!GA_MEASUREMENT_ID || initialized) return;
+export function initAnalytics() {
+  if (!UMAMI_URL || !UMAMI_WEBSITE_ID || initialized) return;
 
   const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+  script.defer = true;
+  script.src = `${UMAMI_URL}/rb.js`;
+  script.dataset.websiteId = UMAMI_WEBSITE_ID;
+  // Só conta visitas no domínio real (não conta localhost / previews)
+  script.dataset.domains = 'dankredbox.com,www.dankredbox.com';
+  script.dataset.doNotTrack = 'true';
   document.head.appendChild(script);
 
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function () {
-    window.dataLayer.push(arguments);
-  };
-  window.gtag('js', new Date());
-  window.gtag('config', GA_MEASUREMENT_ID, { send_page_view: false });
-
   initialized = true;
-}
-
-export function trackPageView(path) {
-  if (!GA_MEASUREMENT_ID || !window.gtag) return;
-  window.gtag('event', 'page_view', {
-    page_path: path,
-  });
 }

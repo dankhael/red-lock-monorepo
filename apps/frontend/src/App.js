@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import './App.css';
 
 // Import pages
@@ -18,18 +18,12 @@ import ShrineDetail from './pages/ShrineDetail';
 // Import Layout component
 import Layout from './components/common/Layout';
 import ErrorBoundary from './components/common/ErrorBoundary';
-import { initGA, trackPageView } from './utils/analytics';
+import { initAnalytics } from './utils/analytics';
 
-function PageTracker() {
-  const location = useLocation();
-
+function AnalyticsLoader() {
   useEffect(() => {
-    initGA();
+    initAnalytics();
   }, []);
-
-  useEffect(() => {
-    trackPageView(location.pathname + location.search);
-  }, [location]);
 
   return null;
 }
@@ -46,7 +40,7 @@ function App() {
   return (
     <ErrorBoundary>
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <PageTracker />
+        <AnalyticsLoader />
         <Routes>
           {/* Shrine detail - renderiza SEM o Layout padrão (header/footer) */}
           <Route path="/shrines/:id" element={<ShrineDetail />} />

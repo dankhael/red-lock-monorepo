@@ -48,7 +48,8 @@ jobs:
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
           REACT_APP_USE_MOCK_DATA: false
-          REACT_APP_GA_MEASUREMENT_ID: ${{ secrets.REACT_APP_GA_MEASUREMENT_ID }}
+          REACT_APP_UMAMI_URL: https://stats.dankredbox.com
+          REACT_APP_UMAMI_WEBSITE_ID: c129d1a9-101c-4959-b95e-e326d63bb8ae
           REACT_APP_DISQUS_SHORTNAME: ${{ secrets.REACT_APP_DISQUS_SHORTNAME }}
 
       # O build do admin não conecta no banco nem usa os segredos reais:
@@ -261,7 +262,8 @@ jobs:
             https://dankredbox.com/blog \
             https://api.dankredbox.com/api/posts \
             https://api.dankredbox.com/api/quote \
-            https://api.dankredbox.com/api/activity; do
+            https://api.dankredbox.com/api/activity \
+            https://stats.dankredbox.com/rb.js; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "$url")
             echo "$url -> HTTP $code"
             [ "$code" = "200" ] || exit 1
