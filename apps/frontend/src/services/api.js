@@ -8,18 +8,9 @@ export const api = axios.create({
   },
 });
 
-// Add a request interceptor for authentication
-api.interceptors.request.use(
-  (config) => {
-    // Add the reader's token to the Authorization header
-    const readerToken = process.env.REACT_APP_READER_TOKEN; // Load from environment variable
-    if (readerToken) {
-      config.headers.Authorization = `Bearer ${readerToken}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+// Sem token: o conteúdo é público e as permissões são garantidas pelo bootstrap
+// do backend (apps/backend/src/index.ts). Um token inválido faria o Strapi
+// responder 401 mesmo em rotas públicas.
 
 // Add a response interceptor for error handling
 api.interceptors.response.use(

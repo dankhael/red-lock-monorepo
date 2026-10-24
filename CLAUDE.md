@@ -58,7 +58,7 @@ All content types use Strapi's factory-generated controllers/routes/services in 
 
 Backend env files: `.env.development` (SQLite) and `.env.production` (PostgreSQL). Required keys: `APP_KEYS`, `API_TOKEN_SALT`, `ADMIN_JWT_SECRET`, `TRANSFER_TOKEN_SALT`, `JWT_SECRET`.
 
-Frontend `.env`: `REACT_APP_API_URL`, `REACT_APP_BASE_URL`, `REACT_APP_READER_TOKEN`, `REACT_APP_USE_MOCK_DATA`.
+Frontend `.env`: `REACT_APP_API_URL`, `REACT_APP_BASE_URL`, `REACT_APP_USE_MOCK_DATA`. The content API is read without a token: public read permissions are ensured by the backend `bootstrap` in `apps/backend/src/index.ts` (`PUBLIC_ACTIONS`). When adding a content type the frontend reads, add its actions there.
 
 ### Windows Compatibility
 
