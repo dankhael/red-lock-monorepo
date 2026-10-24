@@ -5,7 +5,6 @@
   "description": "A Strapi application",
   "scripts": {
     "console": "strapi console",
-    "deploy": "strapi deploy",
     "dev": "strapi develop",
     "develop": "cross-env ENV_PATH=./.env.development strapi develop",
     "start": "cross-env ENV_PATH=./.env.production strapi start",
@@ -15,16 +14,14 @@
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "dependencies": {
-    "@strapi/plugin-cloud": "5.11.2",
-    "@strapi/plugin-seo": "^2.0.8",
-    "@strapi/plugin-users-permissions": "5.11.2",
-    "@strapi/strapi": "5.11.2",
+    "@strapi/plugin-users-permissions": "5.58.0",
+    "@strapi/strapi": "5.58.0",
     "better-sqlite3": "11.3.0",
     "pg": "^8.14.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-router-dom": "^6.0.0",
-    "strapi-plugin-wysiwyg-react-md-editor": "^5.8.2",
+    "react-router-dom": "^6.30.3",
+    "strapi-plugin-wysiwyg-react-md-editor": "^5.8.3",
     "styled-components": "^6.0.0"
   },
   "devDependencies": {
@@ -35,10 +32,33 @@
     "typescript": "^5"
   },
   "engines": {
-    "node": ">=18.0.0 <=22.x.x",
+    "node": ">=20.0.0 <=22.x.x",
     "npm": ">=6.0.0"
   },
   "strapi": {
     "uuid": "1e2b6441-859d-45c8-8daa-08ddec8dcefd"
+  },
+  "overrides": {
+    "@strapi/admin": "5.58.0",
+    "@strapi/cloud-cli": "5.58.0",
+    "@strapi/content-manager": "5.58.0",
+    "@strapi/content-releases": "5.58.0",
+    "@strapi/content-type-builder": "5.58.0",
+    "@strapi/core": "5.58.0",
+    "@strapi/data-transfer": "5.58.0",
+    "@strapi/database": "5.58.0",
+    "@strapi/email": "5.58.0",
+    "@strapi/generators": "5.58.0",
+    "@strapi/i18n": "5.58.0",
+    "@strapi/logger": "5.58.0",
+    "@strapi/openapi": "5.58.0",
+    "@strapi/permissions": "5.58.0",
+    "@strapi/provider-email-sendmail": "5.58.0",
+    "@strapi/provider-upload-local": "5.58.0",
+    "@strapi/review-workflows": "5.58.0",
+    "@strapi/types": "5.58.0",
+    "@strapi/typescript-utils": "5.58.0",
+    "@strapi/upload": "5.58.0",
+    "@strapi/utils": "5.58.0"
   }
 }
